@@ -1,0 +1,225 @@
+# Plano do MVP
+
+Última atualização: 2026-09-07
+
+## Status
+
+- Estado geral: implementação da POC concluída; validação física pendente
+- Fase atual: Fase 1 em andamento
+- Próxima task proposta: executar e registrar a primeira rodada do protocolo com câmera no equipamento de referência
+- Próxima task autorizada: concluir a Fase 1; não iniciar a Fase 2 sem nova aprovação
+
+## Objetivo
+
+Validar se uma pessoa consegue controlar, de forma confortável e previsível, o scroll de uma página comum usando movimentos verticais da cabeça detectados pela câmera do dispositivo.
+
+O MVP será considerado útil se permitir:
+
+1. ativar explicitamente o controle;
+2. conceder acesso à câmera;
+3. calibrar uma posição neutra;
+4. rolar para cima e para baixo;
+5. permanecer parado em uma zona neutra;
+6. ajustar sensibilidade e velocidade;
+7. interromper o controle imediatamente;
+8. continuar operando depois que o popup da extensão for fechado.
+
+## Hipótese principal
+
+Uma estimativa client-side de orientação da cabeça, combinada com calibração relativa, filtragem temporal, zona neutra e histerese, pode produzir um scroll suficientemente estável para uso durante canto e execução de violão.
+
+O principal risco não é detectar uma face. É distinguir intenção de scroll de movimentos naturais feitos durante uma apresentação.
+
+## Fora do escopo
+
+- aplicativo mobile ou PWA de produto;
+- backend, banco de dados ou autenticação;
+- contas, pagamentos, anúncios ou sincronização;
+- treinamento de modelo próprio;
+- gestos personalizados;
+- suporte a outros navegadores;
+- integrações específicas com sites de cifras;
+- reconhecimento de identidade;
+- telemetria remota;
+- suporte completo a todo tipo de container de scroll.
+
+## Decisões técnicas atuais
+
+- TypeScript como linguagem principal.
+- Vue 3 para interfaces que realmente precisem de UI.
+- MediaPipe Face Landmarker via `@mediapipe/tasks-vision`.
+- POC web antes da extensão.
+- WXT e Manifest V3 na etapa de extensão.
+- processamento da câmera em documento offscreen na extensão.
+- service worker apenas para coordenação e roteamento de mensagens.
+- content script responsável por aplicar o scroll na página.
+- preferências persistentes em `chrome.storage.local`.
+- calibração neutra mantida por sessão, não como preferência permanente.
+- bibliotecas, WASM e modelo empacotados localmente.
+
+As justificativas e condições de revisão estão em [DECISIONS.md](DECISIONS.md).
+
+## Arquitetura de referência
+
+```text
+Câmera
+  -> MediaPipe Face Landmarker
+  -> HeadPoseSample { pitch, yaw, roll, confidence, timestamp }
+  -> calibração e filtro temporal
+  -> Gesture Interpreter
+  -> ScrollIntent { action: UP | DOWN | NEUTRAL, intensity }
+  -> adaptador do ambiente
+  -> scroll da página
+```
+
+Na extensão:
+
+```text
+Popup/onboarding
+  -> service worker
+  -> offscreen document: câmera + visão + interpretação
+  -> service worker: roteamento para a aba da sessão
+  -> content script: animação e scroll
+```
+
+## Modelo inicial de interação
+
+- A posição neutra é obtida por uma janela curta de amostras estáveis.
+- O controle utiliza pitch relativo ao baseline, não um ângulo absoluto universal.
+- Uma dead zone mantém o estado `NEUTRAL`.
+- Histerese separa os limites de iniciar e interromper o scroll.
+- Uma permanência curta reduz ativações por movimentos transitórios.
+- A intensidade da inclinação controla a velocidade até um limite configurável.
+- Baixa confiança ou perda da face interrompe o scroll imediatamente.
+- Sensibilidade altera limites; velocidade altera pixels por segundo.
+
+Os valores numéricos serão ajustados com o [protocolo de testes](TEST_PROTOCOL.md).
+
+## Fases
+
+### Fase 0 — Planejamento experimental
+
+Status: concluída
+
+- [x] Definir objetivo e limites do MVP.
+- [x] Escolher tecnologia inicial de visão computacional.
+- [x] Definir arquitetura de referência.
+- [x] Definir hipóteses, cenários e métricas de validação.
+- [x] Registrar invariantes de privacidade.
+- [x] Preparar documentação para continuidade entre sessões.
+
+Critério de aceite: existe um protocolo reproduzível para avaliar o sinal antes da integração com APIs de extensão.
+
+### Fase 1 — POC web instrumentada
+
+Status: em andamento
+
+- [x] Criar aplicação web local mínima.
+- [x] Solicitar somente vídeo da câmera a partir de ação explícita.
+- [x] Carregar MediaPipe, WASM e modelo localmente.
+- [x] Expor pitch, presença/confiança proxy, FPS e latência para depuração.
+- [x] Implementar calibração neutra.
+- [x] Produzir `UP`, `DOWN` e `NEUTRAL` sem aplicar scroll inicialmente.
+- [x] Adicionar área de página para teste de scroll.
+- [ ] Executar a primeira rodada do protocolo.
+- [ ] Registrar resultados e revisar os critérios provisórios.
+
+Evidência técnica: `pnpm check` executa 8 testes do núcleo e o build de produção. A interface foi inspecionada no navegador sem ativar a câmera. Os dois itens restantes exigem uma pessoa, uma câmera e o equipamento de referência; não foram simulados.
+
+Critério de aceite: reconhecimento intencional e região neutra demonstrados durante canto e execução de violão, com desempenho suficiente no equipamento de referência.
+
+### Fase 2 — Estabilização do controle
+
+Status: não iniciada
+
+- [ ] Implementar filtragem temporal.
+- [ ] Implementar dead zone e histerese.
+- [ ] Implementar dwell/debounce.
+- [ ] Implementar intensidade proporcional.
+- [ ] Aplicar scroll baseado em tempo usando `requestAnimationFrame`.
+- [ ] Interromper imediatamente em baixa confiança ou perda da face.
+- [ ] Permitir recalibração rápida.
+- [ ] Executar sessão contínua de 15 a 20 minutos.
+
+Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitável de movimentos involuntários.
+
+### Fase 3 — Extensão Chrome mínima
+
+Status: não iniciada
+
+- [ ] Criar projeto WXT + Vue em Manifest V3.
+- [ ] Criar popup de ativação, estado e configurações.
+- [ ] Criar onboarding/permissão de câmera.
+- [ ] Criar service worker coordenador.
+- [ ] Validar criação e ciclo de vida do documento offscreen.
+- [ ] Manter câmera e inferência após fechamento do popup.
+- [ ] Injetar content script após gesto explícito do usuário.
+- [ ] Vincular cada sessão a uma única aba.
+- [ ] Persistir somente sensibilidade e velocidade.
+- [ ] Implementar ativar, recalibrar e parar.
+
+Critério de aceite: a extensão controla uma página comum, continua após o popup fechar e libera a câmera ao ser desativada.
+
+### Fase 4 — Robustez, privacidade e desempenho
+
+Status: não iniciada
+
+- [ ] Tratar permissão negada ou revogada.
+- [ ] Tratar câmera ausente, ocupada ou desconectada.
+- [ ] Tratar recarga, navegação e troca de aba.
+- [ ] Tratar suspensão/reinício do service worker.
+- [ ] Informar páginas em que não é possível injetar scripts.
+- [ ] Verificar encerramento das tracks da câmera.
+- [ ] Auditar permissões e chamadas de rede.
+- [ ] Medir CPU, memória, FPS e latência.
+- [ ] Testar em mais de uma configuração de hardware.
+
+Critério de aceite: falhas são seguras, a câmera sempre pode ser interrompida e nenhuma imagem ou frame sai do dispositivo.
+
+### Fase 5 — MVP instalável
+
+Status: não iniciada
+
+- [ ] Refinar onboarding e mensagens de erro.
+- [ ] Mostrar indicador inequívoco de sessão ativa.
+- [ ] Disponibilizar parada de emergência por UI e atalho.
+- [ ] Documentar instalação unpacked.
+- [ ] Executar checklist final em páginas reais.
+- [ ] Registrar limitações conhecidas.
+
+Critério de aceite: outra pessoa consegue instalar, conceder permissão, calibrar, usar e desativar o MVP seguindo a documentação.
+
+## Metas provisórias
+
+Estas metas orientam a POC e devem ser revisadas com evidência:
+
+- calibração concluída em até 5 segundos;
+- pelo menos 15 inferências por segundo no equipamento de referência;
+- resposta percebida ao gesto em até aproximadamente 200 ms;
+- parada em até 250 ms após retorno ao neutro ou perda da face;
+- no máximo uma ativação involuntária em cinco minutos no cenário principal;
+- sessão contínua de 20 minutos sem perda irrecuperável da câmera;
+- nenhuma requisição de rede causada pelo pipeline durante a sessão.
+
+## Riscos prioritários
+
+1. movimentos de boca e face durante o canto alterarem a estimativa;
+2. postura mudar gradualmente durante a música;
+3. dead zone pequena provocar ativações; dead zone grande exigir esforço;
+4. filtragem excessiva introduzir atraso e overshoot;
+5. desempenho variar entre hardware, câmera e iluminação;
+6. fluxo de permissão da câmera não ser claro na extensão;
+7. ciclo de vida do offscreen document e do service worker;
+8. páginas com scroll interno ou injeção proibida;
+9. ausência de feedback visível sobre câmera e sessão ativa.
+
+## Acompanhamento
+
+Ao concluir uma task:
+
+1. marcar apenas os itens realmente verificados;
+2. registrar evidências e resultados do experimento;
+3. atualizar decisões que mudaram;
+4. documentar limitações encontradas;
+5. indicar a próxima task proposta;
+6. aguardar aprovação antes de mudar de fase.
