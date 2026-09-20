@@ -18,6 +18,9 @@ export interface ScrollIntent {
   action: ScrollAction
   intensity: number
   relativePitch: number
+  filteredPitch: number | null
+  pendingAction: Exclude<ScrollAction, 'NEUTRAL'> | null
+  dwellProgress: number
 }
 
 export interface InferenceMetrics {

@@ -1,6 +1,6 @@
 # Registro de decisões
 
-Última atualização: 2026-09-07
+Última atualização: 2026-09-20
 
 Este documento registra decisões que afetam arquitetura, escopo, dependências, privacidade ou permissões. Uma decisão pode ser substituída, mas não deve ser apagada; registre a decisão nova e indique a anterior.
 
@@ -117,3 +117,12 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: a API Web permite configurar limites mínimos de detecção, presença e tracking, mas o resultado público do Face Landmarker não expõe esses escores por face.
 - Consequência: a POC não apresenta uma confiança contínua inventada; baixa confiança abaixo dos limites se manifesta como perda de face e produz `NEUTRAL` imediatamente.
 - Revisar se: uma API oficial passar a expor o score ou os testes exigirem outro indicador local e justificável.
+
+## D-013 — Estabilizar o gesto antes do adaptador de scroll
+
+- Status: aceita provisoriamente para a Fase 2
+- Data: 2026-09-20
+- Decisão: manter um interpretador com estado no núcleo, usando suavização exponencial temporal de 70 ms, entrada inicial em 6°, saída em 3,5°, dwell de 120 ms e intensidade proporcional até 18°. A sensibilidade escala esses limites entre 70% e 140%.
+- Motivo: filtrar ruído, impedir oscilações junto ao neutro e rejeitar movimentos transitórios sem acoplar a interpretação às APIs do navegador.
+- Consequência: o adaptador web recebe somente `ScrollIntent` e aplica deslocamento por tempo com `requestAnimationFrame`, velocidade máxima ajustável e intervalo limitado a 50 ms para evitar saltos após pausas da aba. Perda de face ou baixa confiança zera o interpretador, pausa o controle e exige reativação explícita.
+- Revisar se: a sessão física ultrapassar as metas de latência, conforto ou falsos positivos, ou se a taxa de inferência exigir outra constante de filtragem.

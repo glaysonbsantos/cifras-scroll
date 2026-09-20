@@ -1,13 +1,13 @@
 # Plano do MVP
 
-Última atualização: 2026-09-07
+Última atualização: 2026-09-20
 
 ## Status
 
-- Estado geral: implementação da POC concluída; validação física pendente
-- Fase atual: Fase 1 em andamento
-- Próxima task proposta: executar e registrar a primeira rodada do protocolo com câmera no equipamento de referência
-- Próxima task autorizada: concluir a Fase 1; não iniciar a Fase 2 sem nova aprovação
+- Estado geral: Fases 1 e 2 aprovadas; POC pronta para a próxima fase quando autorizada
+- Fase atual: Fase 2 concluída
+- Próxima task proposta: preparar a Fase 3 — extensão Chrome mínima
+- Próxima task autorizada: nenhuma; aguardar aprovação explícita para iniciar a Fase 3
 
 ## Objetivo
 
@@ -112,7 +112,7 @@ Critério de aceite: existe um protocolo reproduzível para avaliar o sinal ante
 
 ### Fase 1 — POC web instrumentada
 
-Status: em andamento
+Status: concluída e aprovada pelo responsável do projeto em 2026-09-20
 
 - [x] Criar aplicação web local mínima.
 - [x] Solicitar somente vídeo da câmera a partir de ação explícita.
@@ -121,25 +121,27 @@ Status: em andamento
 - [x] Implementar calibração neutra.
 - [x] Produzir `UP`, `DOWN` e `NEUTRAL` sem aplicar scroll inicialmente.
 - [x] Adicionar área de página para teste de scroll.
-- [ ] Executar a primeira rodada do protocolo.
-- [ ] Registrar resultados e revisar os critérios provisórios.
+- [x] Encerrar a primeira rodada do protocolo por decisão do responsável do projeto.
+- [x] Autorizar a continuidade para a Fase 2.
 
-Evidência técnica: `pnpm check` executa 8 testes do núcleo e o build de produção. A interface foi inspecionada no navegador sem ativar a câmera. Os dois itens restantes exigem uma pessoa, uma câmera e o equipamento de referência; não foram simulados.
+Evidência técnica: a validação automatizada de 2026-09-07 executou 8 testes do núcleo e o build de produção. Em 2026-09-20, o responsável confirmou a aprovação da Fase 1 e autorizou a continuidade. Não foram fornecidas métricas detalhadas da rodada física para registro.
 
 Critério de aceite: reconhecimento intencional e região neutra demonstrados durante canto e execução de violão, com desempenho suficiente no equipamento de referência.
 
 ### Fase 2 — Estabilização do controle
 
-Status: não iniciada
+Status: concluída e aprovada pelo responsável do projeto em 2026-09-20
 
-- [ ] Implementar filtragem temporal.
-- [ ] Implementar dead zone e histerese.
-- [ ] Implementar dwell/debounce.
-- [ ] Implementar intensidade proporcional.
-- [ ] Aplicar scroll baseado em tempo usando `requestAnimationFrame`.
-- [ ] Interromper imediatamente em baixa confiança ou perda da face.
-- [ ] Permitir recalibração rápida.
-- [ ] Executar sessão contínua de 15 a 20 minutos.
+- [x] Implementar filtragem temporal.
+- [x] Implementar dead zone e histerese.
+- [x] Implementar dwell/debounce.
+- [x] Implementar intensidade proporcional.
+- [x] Aplicar scroll baseado em tempo usando `requestAnimationFrame`.
+- [x] Interromper imediatamente em baixa confiança ou perda da face.
+- [x] Permitir recalibração rápida.
+- [x] Executar e aprovar sessão contínua de 15 a 20 minutos.
+
+Evidência técnica: `pnpm check` executa 16 testes do núcleo e do adaptador de scroll, além do build de produção. A interface da Fase 2 foi inspecionada em larguras desktop e móvel sem ativar a câmera; os controles de sensibilidade atualizaram os limites exibidos e não houve erro no console. Um teste de regressão cobre o vínculo das APIs nativas de animação após a correção do encerramento indevido da câmera ao iniciar o scroll. Em 2026-09-20, o responsável confirmou que a Fase 2 está aprovada; as métricas detalhadas da sessão física não foram fornecidas para registro.
 
 Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitável de movimentos involuntários.
 
