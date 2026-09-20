@@ -12,21 +12,47 @@ interface CameraPipelineCallbacks {
   onError: (error: Error) => void
 }
 
+export interface CameraDetector {
+  initialize(): Promise<void>
+  detect(image: TexImageSource, timestamp: number): DetectionFrame
+  close(): void
+}
+
+interface CameraPipelineDependencies {
+  detector?: CameraDetector
+  getUserMedia?: (constraints: MediaStreamConstraints) => Promise<MediaStream>
+  createFrameReader?: (track: MediaStreamTrack) => ReadableStreamDefaultReader<VideoFrame>
+  now?: () => number
+}
+
 export class CameraPipeline {
-  private detector = new FacePoseDetector()
+  private detector: CameraDetector
+  private getUserMedia: NonNullable<CameraPipelineDependencies['getUserMedia']>
+  private createFrameReader: NonNullable<CameraPipelineDependencies['createFrameReader']>
+  private now: NonNullable<CameraPipelineDependencies['now']>
   private stream: MediaStream | null = null
-  private animationFrameId: number | null = null
-  private lastVideoTime = -1
+  private frameReader: ReadableStreamDefaultReader<VideoFrame> | null = null
   private running = false
+  private runId = 0
 
-  constructor(private callbacks: CameraPipelineCallbacks) {}
+  constructor(
+    private callbacks: CameraPipelineCallbacks,
+    dependencies: CameraPipelineDependencies = {},
+  ) {
+    this.detector = dependencies.detector ?? new FacePoseDetector()
+    this.getUserMedia = dependencies.getUserMedia
+      ?? ((constraints) => navigator.mediaDevices.getUserMedia(constraints))
+    this.createFrameReader = dependencies.createFrameReader
+      ?? ((track) => new MediaStreamTrackProcessor({ track, maxBufferSize: 1 }).readable.getReader())
+    this.now = dependencies.now ?? (() => performance.now())
+  }
 
-  async start(video: HTMLVideoElement): Promise<void> {
+  async start(): Promise<void> {
     if (this.running) return
 
     try {
       await this.detector.initialize()
-      this.stream = await navigator.mediaDevices.getUserMedia({
+      this.stream = await this.getUserMedia({
         audio: false,
         video: {
           facingMode: 'user',
@@ -36,7 +62,8 @@ export class CameraPipeline {
         },
       })
 
-      const [track] = this.stream.getVideoTracks()
+      const [track] = this.stream?.getVideoTracks() ?? []
+      if (!track) throw new Error('A câmera não forneceu uma faixa de vídeo.')
       const settings = track?.getSettings()
       this.callbacks.onCameraReady({
         width: settings?.width ?? null,
@@ -44,50 +71,51 @@ export class CameraPipeline {
         frameRate: settings?.frameRate ?? null,
       })
 
-      video.srcObject = this.stream
-      await video.play()
       this.running = true
-      this.lastVideoTime = -1
-      this.animationFrameId = requestAnimationFrame(() => this.processFrame(video))
+      const currentRunId = ++this.runId
+      this.frameReader = this.createFrameReader(track)
+      void this.processFrames(this.frameReader, currentRunId)
     } catch (reason) {
-      this.stop(video)
+      this.stop()
       const error = reason instanceof Error ? reason : new Error(String(reason))
       this.callbacks.onError(error)
       throw error
     }
   }
 
-  stop(video?: HTMLVideoElement): void {
+  stop(): void {
     this.running = false
-    if (this.animationFrameId !== null) cancelAnimationFrame(this.animationFrameId)
-    this.animationFrameId = null
+    this.runId += 1
+    void this.frameReader?.cancel().catch(() => undefined)
+    this.frameReader = null
     this.stream?.getTracks().forEach((track) => track.stop())
     this.stream = null
-    this.lastVideoTime = -1
-    if (video) video.srcObject = null
   }
 
-  dispose(video?: HTMLVideoElement): void {
-    this.stop(video)
+  dispose(): void {
+    this.stop()
     this.detector.close()
   }
 
-  private processFrame(video: HTMLVideoElement): void {
-    if (!this.running) return
+  private async processFrames(
+    reader: ReadableStreamDefaultReader<VideoFrame>,
+    runId: number,
+  ): Promise<void> {
+    try {
+      while (this.running && runId === this.runId) {
+        const result = await reader.read()
+        if (result.done || !result.value) return
 
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && video.currentTime !== this.lastVideoTime) {
-      this.lastVideoTime = video.currentTime
-      const timestamp = performance.now()
-
-      try {
-        this.callbacks.onFrame(this.detector.detect(video, timestamp))
-      } catch (reason) {
-        this.stop(video)
-        this.callbacks.onError(reason instanceof Error ? reason : new Error(String(reason)))
-        return
+        try {
+          this.callbacks.onFrame(this.detector.detect(result.value, this.now()))
+        } finally {
+          result.value.close()
+        }
       }
+    } catch (reason) {
+      if (!this.running || runId !== this.runId) return
+      this.stop()
+      this.callbacks.onError(reason instanceof Error ? reason : new Error(String(reason)))
     }
-
-    this.animationFrameId = requestAnimationFrame(() => this.processFrame(video))
   }
 }

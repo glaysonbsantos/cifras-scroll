@@ -41,11 +41,11 @@ export class FacePoseDetector {
     })
   }
 
-  detect(video: HTMLVideoElement, timestamp: number): DetectionFrame {
+  detect(image: TexImageSource, timestamp: number): DetectionFrame {
     if (!this.landmarker) throw new Error('Detector não inicializado.')
 
     const inferenceStartedAt = performance.now()
-    const result = this.landmarker.detectForVideo(video, timestamp)
+    const result = this.landmarker.detectForVideo(image, timestamp)
     const latencyMs = performance.now() - inferenceStartedAt
     const matrix = this.firstMatrix(result)
     const facePresent = result.faceLandmarks.length > 0 && matrix !== null

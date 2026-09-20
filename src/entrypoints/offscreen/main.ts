@@ -11,8 +11,6 @@ import type { ExtensionSettings } from '../../extension/settings'
 import { CameraPipeline } from '../../vision/cameraPipeline'
 import type { DetectionFrame } from '../../vision/facePoseDetector'
 
-const video = requiredVideo()
-
 const calibrator = new NeutralCalibrator()
 const interpreter = new GestureInterpreter()
 let running = false
@@ -55,7 +53,7 @@ async function start(settings: ExtensionSettings): Promise<{ ok: boolean; error?
   await emitStatus('Carregando o detector local e iniciando a câmera…')
 
   try {
-    await pipeline.start(video)
+    await pipeline.start()
     running = true
     beginCalibration()
     return { ok: true }
@@ -67,7 +65,7 @@ async function start(settings: ExtensionSettings): Promise<{ ok: boolean; error?
 
 function stop(): void {
   running = false
-  pipeline.stop(video)
+  pipeline.stop()
   calibrator.reset()
   interpreter.reset()
   phase = 'IDLE'
@@ -122,7 +120,7 @@ function handleFrame(frame: DetectionFrame): void {
       void emitStatus('Controle ativo nesta aba. O popup pode ser fechado.')
     } else if (calibration.status === 'FAILED') {
       running = false
-      pipeline.stop(video)
+      pipeline.stop()
       phase = 'ERROR'
       void emitIntent(interpreter.reset())
       void emitStatus(calibration.message)
@@ -193,10 +191,4 @@ function cameraErrorMessage(error: Error): string {
   if (error.name === 'NotFoundError') return 'Nenhuma câmera de vídeo foi encontrada.'
   if (error.name === 'NotReadableError') return 'A câmera está ocupada ou indisponível.'
   return `A sessão foi interrompida: ${error.message}`
-}
-
-function requiredVideo(): HTMLVideoElement {
-  const element = document.querySelector<HTMLVideoElement>('#camera')
-  if (!element) throw new Error('Elemento de vídeo do documento offscreen não encontrado.')
-  return element
 }
