@@ -4,10 +4,10 @@
 
 ## Status
 
-- Estado geral: Fases 1 e 2 aprovadas; POC pronta para a próxima fase quando autorizada
-- Fase atual: Fase 2 concluída
-- Próxima task proposta: preparar a Fase 3 — extensão Chrome mínima
-- Próxima task autorizada: nenhuma; aguardar aprovação explícita para iniciar a Fase 3
+- Estado geral: Fases 1 e 2 aprovadas; implementação da Fase 3 pronta para validação manual
+- Fase atual: Fase 3 implementada na branch `codex/fase-3-extensao-chrome`; aprovação pendente
+- Próxima task proposta: validar a extensão no Chrome com câmera e página real
+- Próxima task autorizada: validação da Fase 3; não iniciar a Fase 4
 
 ## Objetivo
 
@@ -147,18 +147,22 @@ Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitá
 
 ### Fase 3 — Extensão Chrome mínima
 
-Status: não iniciada
+Status: implementação concluída; validação manual pendente
 
-- [ ] Criar projeto WXT + Vue em Manifest V3.
-- [ ] Criar popup de ativação, estado e configurações.
-- [ ] Criar onboarding/permissão de câmera.
-- [ ] Criar service worker coordenador.
-- [ ] Validar criação e ciclo de vida do documento offscreen.
-- [ ] Manter câmera e inferência após fechamento do popup.
-- [ ] Injetar content script após gesto explícito do usuário.
-- [ ] Vincular cada sessão a uma única aba.
-- [ ] Persistir somente sensibilidade e velocidade.
-- [ ] Implementar ativar, recalibrar e parar.
+- [x] Criar projeto WXT + Vue em Manifest V3.
+- [x] Criar popup de ativação, estado e configurações.
+- [x] Criar onboarding/permissão de câmera.
+- [x] Criar service worker coordenador.
+- [x] Validar criação e ciclo de vida do documento offscreen.
+- [x] Manter câmera e inferência após fechamento do popup.
+- [x] Injetar content script após gesto explícito do usuário.
+- [x] Vincular cada sessão a uma única aba.
+- [x] Persistir somente sensibilidade e velocidade.
+- [x] Implementar ativar, recalibrar e parar.
+
+Evidência técnica: `pnpm check` executa 22 testes, verificação TypeScript e build WXT para Chrome MV3. Os testes incluem o ciclo de criação, reutilização concorrente e fechamento do documento offscreen. O manifest gerado usa apenas `activeTab`, `scripting`, `storage` e `offscreen`; não declara acesso permanente a hosts. O onboarding foi inspecionado visualmente em viewport estreito sem ativar a câmera.
+
+Limite da validação: a extensão ainda não foi carregada no Chrome com permissão de câmera nesta rodada. Permanência da captura após fechar o popup, scroll em página real e liberação efetiva da câmera ao parar precisam ser confirmados pelo responsável do projeto antes da aprovação da fase.
 
 Critério de aceite: a extensão controla uma página comum, continua após o popup fechar e libera a câmera ao ser desativada.
 

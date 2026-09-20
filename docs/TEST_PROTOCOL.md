@@ -236,3 +236,16 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Evidência disponível: confirmação explícita do responsável, além das validações automatizadas já registradas.
 - Limite: métricas agregadas da sessão física contínua não foram fornecidas para inclusão neste protocolo; este registro não inventa resultados quantitativos.
 - Próxima ação: aguardar autorização explícita para iniciar a Fase 3.
+
+## Validações da Fase 3
+
+### Validação técnica 2026-09-20-1
+
+- Versão/commit: `8437992` na branch `codex/fase-3-extensao-chrome`.
+- Escopo: estrutura WXT + Vue em Manifest V3, ciclo de vida offscreen, mensageria, persistência de preferências, build e inspeção visual do onboarding sem câmera.
+- Verificações automatizadas: `pnpm check`; 22 testes aprovados, incluindo criação única sob concorrência, reutilização e fechamento do documento offscreen; verificação TypeScript e build WXT aprovados.
+- Manifest inspecionado: `activeTab`, `scripting`, `storage` e `offscreen`; Chrome 116 mínimo; nenhuma permissão permanente de host; CSP permite WASM local e mantém scripts restritos ao pacote.
+- Privacidade verificada por inspeção: câmera solicitada com `audio: false`; modelo, JavaScript e WASM do MediaPipe permanecem locais; mensagens entre contextos contêm estado, configurações, pose interpretada ou intenção, nunca frames; somente sensibilidade e velocidade são gravadas em `chrome.storage.local`.
+- Interface inspecionada: onboarding em viewport estreito, com correção da rolagem horizontal observada na primeira inspeção; câmera não ativada e nenhuma permissão concedida durante a validação.
+- Limite desta validação: não houve instalação da extensão, concessão de câmera nem teste físico. Não confirma o controle de uma página real, a continuidade após fechar o popup ou a liberação efetiva da câmera ao parar.
+- Próxima ação: carregar a build no Chrome, autorizar somente vídeo e confirmar o critério de aceite da Fase 3 antes do merge na `main`.

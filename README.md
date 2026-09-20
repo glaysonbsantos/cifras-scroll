@@ -6,11 +6,11 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1 e 2 estão concluídas e aprovadas. A POC web aplica suavização temporal, dead zone com histerese, dwell, intensidade proporcional e scroll baseado em tempo sobre a captura e calibração locais da Fase 1.
+As Fases 1 e 2 estão concluídas e aprovadas. A implementação da Fase 3 está pronta na branch `codex/fase-3-extensao-chrome` e aguarda validação manual no Chrome antes de ser considerada aprovada.
 
-O scroll exige calibração e ativação explícita, pode ser pausado pelo botão fixo ou pela tecla `Esc` e é interrompido ao perder a face. Sensibilidade e velocidade podem ser ajustadas durante a sessão. A Fase 3 ainda depende de autorização explícita.
+A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas.
 
-## Executar a POC
+## Executar a extensão em desenvolvimento
 
 Pré-requisitos: Node.js 20.19 ou superior e pnpm.
 
@@ -19,13 +19,17 @@ pnpm install
 pnpm dev
 ```
 
-Abra o endereço local informado no terminal, clique em **Iniciar câmera**, calibre a posição neutra e então use **Ativar scroll**. A permissão solicita somente vídeo. Para executar todas as verificações automatizadas:
+O WXT gera a extensão de desenvolvimento em `.output/chrome-mv3-dev`. Carregue esse diretório temporariamente em `chrome://extensions`, com o modo do desenvolvedor ativo. Na primeira instalação, a tela de onboarding solicita somente vídeo e libera imediatamente a câmera usada para verificar a permissão.
+
+Abra uma página `http` ou `https`, clique no ícone da extensão e use **Ativar nesta aba**. A calibração começa automaticamente; o popup pode ser fechado quando o estado ficar ativo. **Parar** encerra a sessão e libera a câmera.
+
+Para executar todas as verificações automatizadas e gerar o pacote de produção em `.output/chrome-mv3`:
 
 ```bash
 pnpm check
 ```
 
-O pacote, os arquivos WASM e o modelo do MediaPipe usados em runtime ficam no projeto e são servidos pela própria POC; a inferência não depende de CDN ou backend.
+O pacote, os arquivos WASM e o modelo do MediaPipe usados em runtime ficam no projeto e são servidos pela própria extensão; a inferência não depende de CDN ou backend.
 
 ## Princípios do MVP
 

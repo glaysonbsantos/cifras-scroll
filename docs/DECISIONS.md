@@ -126,3 +126,21 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: filtrar ruído, impedir oscilações junto ao neutro e rejeitar movimentos transitórios sem acoplar a interpretação às APIs do navegador.
 - Consequência: o adaptador web recebe somente `ScrollIntent` e aplica deslocamento por tempo com `requestAnimationFrame`, velocidade máxima ajustável e intervalo limitado a 50 ms para evitar saltos após pausas da aba. Perda de face ou baixa confiança zera o interpretador, pausa o controle e exige reativação explícita.
 - Revisar se: a sessão física ultrapassar as metas de latência, conforto ou falsos positivos, ou se a taxa de inferência exigir outra constante de filtragem.
+
+## D-014 — Migrar a aplicação executável para WXT em Manifest V3
+
+- Status: aceita para a Fase 3
+- Data: 2026-09-20
+- Decisão: substituir a entrada Vite da POC por um projeto WXT 0.21 com Vue 3, mantendo o núcleo, os testes e os assets locais do MediaPipe.
+- Motivo: a Fase 3 exige múltiplos contextos de extensão, geração consistente do manifest e empacotamento compatível com as restrições de código remoto do Manifest V3.
+- Consequência: `pnpm dev` inicia o fluxo de desenvolvimento WXT e `pnpm build` executa verificação TypeScript antes de gerar `.output/chrome-mv3`. A extensão requer Chrome 116 ou superior por usar `runtime.getContexts` no gerenciamento do documento offscreen.
+- Revisar se: uma atualização do WXT alterar o formato de entrypoints, o empacotamento de páginas não listadas ou a compatibilidade mínima do Chrome.
+
+## D-015 — Isolar a sessão por aba e manter a câmera no documento offscreen
+
+- Status: aceita para a Fase 3
+- Data: 2026-09-20
+- Decisão: o service worker coordena uma única aba, cria e encerra o documento offscreen e roteia `ScrollIntent`; o offscreen possui câmera, detector, calibração e interpretador; o script de scroll é injetado programaticamente após a abertura do popup; o onboarding visível obtém a permissão de câmera para a origem da extensão.
+- Motivo: fechar o popup não pode encerrar a sessão, frames não devem atravessar contextos e o acesso à página precisa permanecer temporário e explícito.
+- Consequência: o manifest usa `activeTab`, `scripting`, `storage` e `offscreen`, sem `<all_urls>`. Somente sensibilidade e velocidade são persistidas; aba, baseline, estado e intenção permanecem em memória. Perda de face pausa o scroll e exige retomada explícita; parar envia intenção neutra, interrompe as tracks e fecha o documento offscreen.
+- Revisar se: a validação real mostrar que a permissão não é reutilizada pelo documento offscreen, que o service worker perde estado durante a sessão ou que `activeTab` não cobre o fluxo esperado.

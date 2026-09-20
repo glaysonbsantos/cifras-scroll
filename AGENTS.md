@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: Fases 1 e 2 concluídas e aprovadas; aguardar autorização explícita para iniciar a Fase 3.
+- Fase atual: Fase 3 implementada na branch `codex/fase-3-extensao-chrome`; aguardar validação explícita antes de consolidar na `main` ou iniciar a Fase 4.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build` e `pnpm check`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.
