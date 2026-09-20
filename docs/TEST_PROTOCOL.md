@@ -249,3 +249,13 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Interface inspecionada: onboarding em viewport estreito, com correção da rolagem horizontal observada na primeira inspeção; câmera não ativada e nenhuma permissão concedida durante a validação.
 - Limite desta validação: não houve instalação da extensão, concessão de câmera nem teste físico. Não confirma o controle de uma página real, a continuidade após fechar o popup ou a liberação efetiva da câmera ao parar.
 - Próxima ação: carregar a build no Chrome, autorizar somente vídeo e confirmar o critério de aceite da Fase 3 antes do merge na `main`.
+
+### Validação técnica 2026-09-20-2
+
+- Versão/commit: `fa8f239` na branch `codex/fase-3-extensao-chrome`.
+- Ambiente observado: extensão unpacked em Chrome, página de cifra do Cifra Club e câmera autorizada.
+- Problema observado: a sessão permanecia indefinidamente em `Calibrando` e a barra de progresso não avançava.
+- Causa: o pipeline herdado da POC solicitava inferências por `requestAnimationFrame`. No documento offscreen oculto, a atualização visual não é uma fonte confiável de frames e nenhum callback chegava ao calibrador.
+- Correção: a extensão passou a consumir `VideoFrame` diretamente da faixa da câmera com `MediaStreamTrackProcessor`, mantendo no máximo um frame em espera e fechando cada frame após a inferência. O pipeline não depende mais de pintura ou visibilidade do documento.
+- Verificações automatizadas: `pnpm check`; 24 testes aprovados, incluindo consumo de frame sem `requestAnimationFrame`, descarte do frame, interrupção das tracks em erro, verificação TypeScript e build WXT.
+- Limite desta validação: a correção ainda precisa ser recarregada no Chrome e repetida pelo responsável para confirmar calibração, scroll e encerramento real da câmera.

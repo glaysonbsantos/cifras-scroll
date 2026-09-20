@@ -144,3 +144,12 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: fechar o popup não pode encerrar a sessão, frames não devem atravessar contextos e o acesso à página precisa permanecer temporário e explícito.
 - Consequência: o manifest usa `activeTab`, `scripting`, `storage` e `offscreen`, sem `<all_urls>`. Somente sensibilidade e velocidade são persistidas; aba, baseline, estado e intenção permanecem em memória. Perda de face pausa o scroll e exige retomada explícita; parar envia intenção neutra, interrompe as tracks e fecha o documento offscreen.
 - Revisar se: a validação real mostrar que a permissão não é reutilizada pelo documento offscreen, que o service worker perde estado durante a sessão ou que `activeTab` não cobre o fluxo esperado.
+
+## D-016 — Consumir frames diretamente da faixa de vídeo no offscreen
+
+- Status: aceita; substitui o agendamento de vídeo da D-011 no contexto da extensão
+- Data: 2026-09-20
+- Decisão: usar `MediaStreamTrackProcessor` para obter `VideoFrame` da faixa da câmera no documento offscreen, em vez de acionar `detectForVideo` por `requestAnimationFrame`.
+- Motivo: a primeira validação no Chrome mostrou que o documento offscreen permanecia em calibração porque callbacks ligados à pintura não avançavam de forma confiável em um contexto oculto. O processador de faixa entrega frames de mídia independentemente da renderização da página.
+- Consequência: cada frame é processado localmente e fechado imediatamente após a inferência; a fila é limitada a um frame para evitar atraso acumulado. Nenhum frame atravessa a mensageria da extensão ou é persistido.
+- Revisar se: testes em hardware real não alcançarem a meta de inferências por segundo, o Chrome remover a exposição dessa API no contexto Window ou a inferência exigir migração integral para Worker.

@@ -160,7 +160,7 @@ Status: implementação concluída; validação manual pendente
 - [x] Persistir somente sensibilidade e velocidade.
 - [x] Implementar ativar, recalibrar e parar.
 
-Evidência técnica: `pnpm check` executa 22 testes, verificação TypeScript e build WXT para Chrome MV3. Os testes incluem o ciclo de criação, reutilização concorrente e fechamento do documento offscreen. O manifest gerado usa apenas `activeTab`, `scripting`, `storage` e `offscreen`; não declara acesso permanente a hosts. O onboarding foi inspecionado visualmente em viewport estreito sem ativar a câmera.
+Evidência técnica: `pnpm check` executa 24 testes, verificação TypeScript e build WXT para Chrome MV3. Os testes incluem o ciclo de criação, reutilização concorrente e fechamento do documento offscreen, além do consumo e descarte seguro de frames diretamente da faixa de vídeo. O manifest gerado usa apenas `activeTab`, `scripting`, `storage` e `offscreen`; não declara acesso permanente a hosts. O onboarding foi inspecionado visualmente em viewport estreito sem ativar a câmera.
 
 Limite da validação: a extensão ainda não foi carregada no Chrome com permissão de câmera nesta rodada. Permanência da captura após fechar o popup, scroll em página real e liberação efetiva da câmera ao parar precisam ser confirmados pelo responsável do projeto antes da aprovação da fase.
 
