@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: Fase 1 em andamento; POC web implementada e aguardando a primeira rodada física do protocolo.
+- Fase atual: Fase 2 em andamento; estabilização e scroll implementados na POC, aguardando a sessão física contínua de 15 a 20 minutos.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build` e `pnpm check`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.

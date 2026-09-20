@@ -1,6 +1,6 @@
 # Protocolo de testes do MVP
 
-Última atualização: 2026-09-07
+Última atualização: 2026-09-20
 
 ## Objetivo
 
@@ -200,3 +200,21 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Inspeção de interface: estado inicial com câmera desligada, calibração indisponível, intenção neutra, métricas vazias e área longa de leitura; nenhum erro de console observado.
 - Limite desta validação: câmera, acurácia dos ângulos, FPS, latência, calibração real, canto e violão não foram testados. Esta validação não conta como uma rodada do protocolo e não confirma H1–H7.
 - Próxima ação: executar a primeira rodada física, começando pelo registro do ambiente e pelos cenários S1, S2, S3, S4 e S5.
+
+### Encerramento da Fase 1 — 2026-09-20
+
+- Escopo: decisão de continuidade informada pelo responsável do projeto.
+- Decisão: considerar a Fase 1 encerrada e autorizar a implementação da Fase 2.
+- Evidência disponível: a confirmação do responsável; nenhuma métrica agregada ou observação da rodada física foi fornecida para inclusão neste protocolo.
+- Limite: este registro não confirma H1–H7 nem substitui os resultados experimentais. Nenhum valor de acerto, latência, falso positivo, conforto ou desempenho foi inferido.
+
+## Validações da Fase 2
+
+### Validação técnica 2026-09-20-1
+
+- Escopo: estabilização do interpretador, adaptador de scroll baseado em tempo, build e inspeção visual sem conceder acesso à câmera.
+- Verificações automatizadas: `pnpm check`; 15 testes aprovados para extração de pose, calibração, suavização temporal, dwell, histerese, intensidade, parada segura e deslocamento proporcional ao tempo; build de produção aprovado.
+- Inspeção de interface: estados iniciais, controles de ativação, sensibilidade e velocidade, limites de entrada/saída e layout em larguras desktop e móvel; nenhum erro de console observado.
+- Privacidade verificada por inspeção: não houve mudança no fluxo local de câmera, nenhuma captura de áudio foi adicionada e o scroll recebe somente `ScrollIntent`, sem imagens.
+- Limite desta validação: câmera, comportamento corporal, latências de início/parada, falsos positivos, conforto, deriva e sessão contínua não foram testados.
+- Próxima ação: executar S1–S10, com ênfase na sessão contínua de 15 a 20 minutos, e registrar métricas agregadas antes de encerrar a Fase 2.

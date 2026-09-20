@@ -6,9 +6,9 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-O projeto está na Fase 1. A POC web instrumentada já possui captura explícita de vídeo, inferência local com MediaPipe Face Landmarker, calibração neutra, interpretação de `UP`, `DOWN` e `NEUTRAL`, métricas em memória e uma área longa de leitura.
+O projeto está na Fase 2. A POC web aplica suavização temporal, dead zone com histerese, dwell, intensidade proporcional e scroll baseado em tempo sobre a captura e calibração locais da Fase 1.
 
-O scroll automático permanece desativado nesta fase. O próximo marco é executar e registrar a primeira rodada física do protocolo antes de iniciar a estabilização do controle.
+O scroll exige calibração e ativação explícita, pode ser pausado pelo botão fixo ou pela tecla `Esc` e é interrompido ao perder a face. Sensibilidade e velocidade podem ser ajustadas durante a sessão. O próximo marco é executar e registrar a sessão física contínua de 15 a 20 minutos; a Fase 3 ainda não está autorizada.
 
 ## Executar a POC
 
@@ -19,7 +19,7 @@ pnpm install
 pnpm dev
 ```
 
-Abra o endereço local informado no terminal e clique em **Iniciar câmera**. A permissão solicita somente vídeo. Para executar todas as verificações automatizadas:
+Abra o endereço local informado no terminal, clique em **Iniciar câmera**, calibre a posição neutra e então use **Ativar scroll**. A permissão solicita somente vídeo. Para executar todas as verificações automatizadas:
 
 ```bash
 pnpm check
