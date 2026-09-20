@@ -4,20 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "dev": "wxt",
+    "build": "vue-tsc --noEmit && wxt build",
     "test": "vitest run",
-    "check": "pnpm test && pnpm build"
+    "check": "pnpm test && pnpm build",
+    "postinstall": "wxt prepare"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^1.0.1",
     "vue": "^3.5.42"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@wxt-dev/module-vue": "^1.0.3",
     "typescript": "^5.9.3",
-    "vite": "^8.2.2",
     "vitest": "^5.0.0",
-    "vue-tsc": "^3.3.11"
+    "vue-tsc": "^3.3.11",
+    "wxt": "^0.21.4"
   }
 }
