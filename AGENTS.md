@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: Fase 2 em andamento; estabilização e scroll implementados na POC, aguardando a sessão física contínua de 15 a 20 minutos.
+- Fase atual: Fases 1 e 2 concluídas e aprovadas; aguardar autorização explícita para iniciar a Fase 3.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build` e `pnpm check`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.
@@ -45,6 +45,7 @@ Antes de trabalhar, leia:
 - Antes de um commit, revise `git status` e o diff e execute os checks oficiais aplicáveis.
 - Nunca versione `node_modules`, `dist`, segredos, arquivos `.env`, logs, frames ou qualquer dado derivado identificável da câmera.
 - Não faça `push`, force-push, rebase, amend ou reescrita de histórico sem solicitação explícita do usuário.
+- Após aprovação explícita de uma fase, consolide sua branch na `main`, que é a branch principal do projeto.
 
 ## Invariantes de privacidade
 

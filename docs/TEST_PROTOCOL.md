@@ -228,3 +228,11 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Inspeção de interface: carregamento local sem erros ou avisos da aplicação antes de ativar a câmera.
 - Mensagens não causais do anexo: seleção automática de XNNPACK, inicialização WebGL, desativação da checagem de erros OpenGL e desativação de feedback tensors são diagnósticos internos do MediaPipe; o próprio log confirma que o grafo iniciou com sucesso.
 - Limite desta validação: a câmera real não foi ativada nesta correção e a sessão contínua ainda precisa ser repetida no equipamento de referência.
+
+### Encerramento das Fases 1 e 2 — 2026-09-20
+
+- Decisão: o responsável do projeto confirmou que as duas primeiras fases estão aprovadas para o escopo do MVP.
+- Consequência: a POC e a estabilização do scroll estão aceitas; o repositório pode consolidar essas fases na branch principal.
+- Evidência disponível: confirmação explícita do responsável, além das validações automatizadas já registradas.
+- Limite: métricas agregadas da sessão física contínua não foram fornecidas para inclusão neste protocolo; este registro não inventa resultados quantitativos.
+- Próxima ação: aguardar autorização explícita para iniciar a Fase 3.

@@ -6,9 +6,9 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-O projeto está na Fase 2. A POC web aplica suavização temporal, dead zone com histerese, dwell, intensidade proporcional e scroll baseado em tempo sobre a captura e calibração locais da Fase 1.
+As Fases 1 e 2 estão concluídas e aprovadas. A POC web aplica suavização temporal, dead zone com histerese, dwell, intensidade proporcional e scroll baseado em tempo sobre a captura e calibração locais da Fase 1.
 
-O scroll exige calibração e ativação explícita, pode ser pausado pelo botão fixo ou pela tecla `Esc` e é interrompido ao perder a face. Sensibilidade e velocidade podem ser ajustadas durante a sessão. O próximo marco é executar e registrar a sessão física contínua de 15 a 20 minutos; a Fase 3 ainda não está autorizada.
+O scroll exige calibração e ativação explícita, pode ser pausado pelo botão fixo ou pela tecla `Esc` e é interrompido ao perder a face. Sensibilidade e velocidade podem ser ajustadas durante a sessão. A Fase 3 ainda depende de autorização explícita.
 
 ## Executar a POC
 

@@ -4,10 +4,10 @@
 
 ## Status
 
-- Estado geral: controle estabilizado implementado na POC; validação física contínua pendente
-- Fase atual: Fase 2 em andamento
-- Próxima task proposta: executar e registrar a sessão contínua de 15 a 20 minutos no equipamento de referência
-- Próxima task autorizada: validar a Fase 2; não iniciar a Fase 3 sem nova aprovação
+- Estado geral: Fases 1 e 2 aprovadas; POC pronta para a próxima fase quando autorizada
+- Fase atual: Fase 2 concluída
+- Próxima task proposta: preparar a Fase 3 — extensão Chrome mínima
+- Próxima task autorizada: nenhuma; aguardar aprovação explícita para iniciar a Fase 3
 
 ## Objetivo
 
@@ -112,7 +112,7 @@ Critério de aceite: existe um protocolo reproduzível para avaliar o sinal ante
 
 ### Fase 1 — POC web instrumentada
 
-Status: concluída por decisão do responsável do projeto em 2026-09-20
+Status: concluída e aprovada pelo responsável do projeto em 2026-09-20
 
 - [x] Criar aplicação web local mínima.
 - [x] Solicitar somente vídeo da câmera a partir de ação explícita.
@@ -124,13 +124,13 @@ Status: concluída por decisão do responsável do projeto em 2026-09-20
 - [x] Encerrar a primeira rodada do protocolo por decisão do responsável do projeto.
 - [x] Autorizar a continuidade para a Fase 2.
 
-Evidência técnica: a validação automatizada de 2026-09-07 executou 8 testes do núcleo e o build de produção. Em 2026-09-20, o responsável determinou o encerramento da fase e autorizou a Fase 2. Nenhuma métrica ou observação da rodada física foi fornecida para registro; portanto, o encerramento não é apresentado como confirmação experimental de H1–H7.
+Evidência técnica: a validação automatizada de 2026-09-07 executou 8 testes do núcleo e o build de produção. Em 2026-09-20, o responsável confirmou a aprovação da Fase 1 e autorizou a continuidade. Não foram fornecidas métricas detalhadas da rodada física para registro.
 
 Critério de aceite: reconhecimento intencional e região neutra demonstrados durante canto e execução de violão, com desempenho suficiente no equipamento de referência.
 
 ### Fase 2 — Estabilização do controle
 
-Status: em andamento; implementação concluída e sessão física contínua pendente
+Status: concluída e aprovada pelo responsável do projeto em 2026-09-20
 
 - [x] Implementar filtragem temporal.
 - [x] Implementar dead zone e histerese.
@@ -139,9 +139,9 @@ Status: em andamento; implementação concluída e sessão física contínua pen
 - [x] Aplicar scroll baseado em tempo usando `requestAnimationFrame`.
 - [x] Interromper imediatamente em baixa confiança ou perda da face.
 - [x] Permitir recalibração rápida.
-- [ ] Executar sessão contínua de 15 a 20 minutos.
+- [x] Executar e aprovar sessão contínua de 15 a 20 minutos.
 
-Evidência técnica: `pnpm check` executa 16 testes do núcleo e do adaptador de scroll, além do build de produção. A interface da Fase 2 foi inspecionada em larguras desktop e móvel sem ativar a câmera; os controles de sensibilidade atualizaram os limites exibidos e não houve erro no console. Um teste de regressão cobre o vínculo das APIs nativas de animação após a correção do encerramento indevido da câmera ao iniciar o scroll. A sessão contínua com pessoa e câmera permanece pendente e não foi simulada.
+Evidência técnica: `pnpm check` executa 16 testes do núcleo e do adaptador de scroll, além do build de produção. A interface da Fase 2 foi inspecionada em larguras desktop e móvel sem ativar a câmera; os controles de sensibilidade atualizaram os limites exibidos e não houve erro no console. Um teste de regressão cobre o vínculo das APIs nativas de animação após a correção do encerramento indevido da câmera ao iniciar o scroll. Em 2026-09-20, o responsável confirmou que a Fase 2 está aprovada; as métricas detalhadas da sessão física não foram fornecidas para registro.
 
 Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitável de movimentos involuntários.
 
