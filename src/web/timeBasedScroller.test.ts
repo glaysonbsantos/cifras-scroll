@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { ScrollIntent } from '../core/types'
 import { TimeBasedScroller } from './timeBasedScroller'
 
@@ -14,6 +14,10 @@ function intent(action: 'UP' | 'DOWN' | 'NEUTRAL', intensity: number): ScrollInt
 }
 
 describe('TimeBasedScroller', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('aplica distancia proporcional ao tempo, intensidade e velocidade', () => {
     const distances: number[] = []
     let callback: FrameRequestCallback | null = null
@@ -68,5 +72,32 @@ describe('TimeBasedScroller', () => {
     scroller.setIntent(intent('NEUTRAL', 0))
 
     expect(cancelled).toEqual([42])
+  })
+
+  it('preserva o receptor window das APIs nativas de animacao', () => {
+    let requested = false
+    let cancelled = false
+    const browserWindow = {
+      scrollBy: () => undefined,
+      requestAnimationFrame(this: unknown) {
+        if (this !== browserWindow) throw new TypeError('Illegal invocation')
+        requested = true
+        return 7
+      },
+      cancelAnimationFrame(this: unknown, handle: number) {
+        if (this !== browserWindow) throw new TypeError('Illegal invocation')
+        cancelled = handle === 7
+      },
+    }
+    vi.stubGlobal('window', browserWindow)
+    vi.stubGlobal('requestAnimationFrame', browserWindow.requestAnimationFrame)
+    vi.stubGlobal('cancelAnimationFrame', browserWindow.cancelAnimationFrame)
+    const scroller = new TimeBasedScroller()
+
+    scroller.setIntent(intent('DOWN', 1))
+    scroller.stop()
+
+    expect(requested).toBe(true)
+    expect(cancelled).toBe(true)
   })
 })

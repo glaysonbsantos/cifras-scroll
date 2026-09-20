@@ -218,3 +218,13 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Privacidade verificada por inspeção: não houve mudança no fluxo local de câmera, nenhuma captura de áudio foi adicionada e o scroll recebe somente `ScrollIntent`, sem imagens.
 - Limite desta validação: câmera, comportamento corporal, latências de início/parada, falsos positivos, conforto, deriva e sessão contínua não foram testados.
 - Próxima ação: executar S1–S10, com ênfase na sessão contínua de 15 a 20 minutos, e registrar métricas agregadas antes de encerrar a Fase 2.
+
+### Validação técnica 2026-09-20-2
+
+- Problema observado: ao iniciar um gesto depois de ativar o scroll, a sessão podia ser interrompida e liberar a câmera. O console anexado também mostrava um 404 de `favicon.ico` e mensagens do MediaPipe/XNNPACK/WebGL.
+- Causa do encerramento: o adaptador armazenava `requestAnimationFrame` e `cancelAnimationFrame` sem preservar o receptor `window`. O navegador podia lançar `Illegal invocation` no primeiro gesto; a exceção atravessava `onFrame` e o pipeline a tratava como falha de processamento, interrompendo as tracks por segurança.
+- Correção: as APIs de animação agora são chamadas através de `window`; uma barreira no callback da aplicação pausa somente o scroll caso o adaptador falhe, mantendo a câmera ativa; um favicon embutido remove o 404.
+- Verificações automatizadas: `pnpm check`; 16 testes aprovados, incluindo regressão que exige o receptor nativo correto para solicitar e cancelar quadros; build de produção aprovado.
+- Inspeção de interface: carregamento local sem erros ou avisos da aplicação antes de ativar a câmera.
+- Mensagens não causais do anexo: seleção automática de XNNPACK, inicialização WebGL, desativação da checagem de erros OpenGL e desativação de feedback tensors são diagnósticos internos do MediaPipe; o próprio log confirma que o grafo iniciou com sucesso.
+- Limite desta validação: a câmera real não foi ativada nesta correção e a sessão contínua ainda precisa ser repetida no equipamento de referência.

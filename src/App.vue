@@ -148,6 +148,15 @@ function updateMaximumSpeed(): void {
   scroller.setMaximumSpeed(maximumSpeed.value)
 }
 
+function applyScrollIntent(nextIntent: ScrollIntent): void {
+  try {
+    scroller.setIntent(nextIntent)
+  } catch (reason) {
+    const detail = reason instanceof Error ? ` (${reason.message})` : ''
+    disableControl(`Falha ao iniciar o scroll${detail}. A câmera continua ativa.`)
+  }
+}
+
 function handleKeydown(event: KeyboardEvent): void {
   if (event.key === 'Escape' && controlEnabled.value) {
     disableControl('Scroll pausado pela tecla Esc. A câmera continua ativa.')
@@ -183,7 +192,7 @@ function handleFrame(frame: DetectionFrame): void {
   if (controlEnabled.value && (!frame.sample || frame.sample.confidence < 0.5)) {
     disableControl('Face perdida: scroll pausado imediatamente. Reative quando estiver enquadrado.')
   } else if (controlEnabled.value) {
-    scroller.setIntent(intent.value)
+    applyScrollIntent(intent.value)
   }
 
   metricsTracker.record(

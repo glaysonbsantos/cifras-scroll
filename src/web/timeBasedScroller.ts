@@ -21,8 +21,8 @@ export class TimeBasedScroller {
 
   constructor(
     private readonly scrollBy: ScrollBy = (deltaY) => window.scrollBy({ top: deltaY, behavior: 'auto' }),
-    private readonly requestFrame: RequestFrame = requestAnimationFrame,
-    private readonly cancelFrame: CancelFrame = cancelAnimationFrame,
+    private readonly requestFrame: RequestFrame = (callback) => window.requestAnimationFrame(callback),
+    private readonly cancelFrame: CancelFrame = (handle) => window.cancelAnimationFrame(handle),
   ) {}
 
   setIntent(intent: ScrollIntent): void {

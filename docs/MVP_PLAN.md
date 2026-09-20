@@ -141,7 +141,7 @@ Status: em andamento; implementação concluída e sessão física contínua pen
 - [x] Permitir recalibração rápida.
 - [ ] Executar sessão contínua de 15 a 20 minutos.
 
-Evidência técnica: `pnpm check` executa 15 testes do núcleo e do adaptador de scroll, além do build de produção. A interface da Fase 2 foi inspecionada em larguras desktop e móvel sem ativar a câmera; os controles de sensibilidade atualizaram os limites exibidos e não houve erro no console. A sessão com pessoa e câmera permanece pendente e não foi simulada.
+Evidência técnica: `pnpm check` executa 16 testes do núcleo e do adaptador de scroll, além do build de produção. A interface da Fase 2 foi inspecionada em larguras desktop e móvel sem ativar a câmera; os controles de sensibilidade atualizaram os limites exibidos e não houve erro no console. Um teste de regressão cobre o vínculo das APIs nativas de animação após a correção do encerramento indevido da câmera ao iniciar o scroll. A sessão contínua com pessoa e câmera permanece pendente e não foi simulada.
 
 Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitável de movimentos involuntários.
 
