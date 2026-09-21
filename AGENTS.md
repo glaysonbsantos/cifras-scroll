@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: Fase 5 aprovada e consolidada; preparação local da versão pública `1.0.0` concluída na branch `codex/publicacao-chrome-web-store`, com validação manual do ZIP e etapas externas da loja pendentes. Medição de CPU total e segundo hardware permanecem como acompanhamentos da Fase 4.
+- Fase atual: Fase 5 e preparação local da versão pública `1.0.0` concluídas e consolidadas na `main`, com validação manual do ZIP e etapas externas da loja pendentes. Medição de CPU total e segundo hardware permanecem como acompanhamentos da Fase 4.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build`, `pnpm check`, `pnpm zip` e `pnpm release`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.

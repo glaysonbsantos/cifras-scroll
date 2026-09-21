@@ -4,10 +4,10 @@
 
 ## Status
 
-- Estado geral: Fases 1, 2, 3, 4 e 5 aprovadas e consolidadas na `main`
+- Estado geral: Fases 1, 2, 3, 4 e 5 e preparação local da versão pública `1.0.0` consolidadas na `main`
 - Fase atual: preparação local da versão pública `1.0.0` concluída; validação final e submissão pendentes
 - Próxima task proposta: instalar o ZIP final em perfil limpo, publicar a política e preencher o Developer Dashboard
-- Próxima task autorizada: preparar identidade visual, privacidade, pacote e conteúdo da loja em branch própria
+- Última task autorizada: consolidar a preparação de publicação na `main` e publicar a branch principal no GitHub
 
 ## Objetivo
 
@@ -210,7 +210,7 @@ Critério de aceite: outra pessoa consegue instalar, conceder permissão, calibr
 
 ### Preparação para publicação — Chrome Web Store
 
-Status: preparação local concluída na branch `codex/publicacao-chrome-web-store`; pendências externas abertas
+Status: preparação local concluída e consolidada na `main`; pendências externas abertas
 
 - [x] Consolidar a Fase 5 na `main`.
 - [x] Definir identidade visual e ícones de distribuição.
