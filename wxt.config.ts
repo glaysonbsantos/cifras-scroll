@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt'
 import {
   EXTENSION_HOST_PERMISSIONS,
+  EXTENSION_ICONS,
   EXTENSION_PAGE_CSP,
   EXTENSION_PERMISSIONS,
 } from './src/extension/manifestPolicy'
@@ -16,12 +17,13 @@ export default defineConfig({
   manifest: {
     name: 'Cifras Scroll',
     description: 'Controle o scroll da aba atual com movimentos da cabeça processados localmente.',
-    version: '0.2.0',
     minimum_chrome_version: '116',
     permissions: [...EXTENSION_PERMISSIONS],
     host_permissions: [...EXTENSION_HOST_PERMISSIONS],
+    icons: EXTENSION_ICONS,
     action: {
       default_title: 'Cifras Scroll',
+      default_icon: EXTENSION_ICONS,
     },
     commands: {
       [EMERGENCY_STOP_COMMAND]: {

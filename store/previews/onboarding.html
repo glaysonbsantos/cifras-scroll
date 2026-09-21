@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifras Scroll — configuração inicial</title>
+    <link rel="stylesheet" href="../../src/entrypoints/onboarding/style.css">
+    <style>
+      .page-shell { padding: 24px 20px; }
+      .hero-card { padding: 30px 64px; }
+      .mark { margin-bottom: 16px; }
+      h1 { font-size: 3.35rem; }
+      .lead { margin: 14px 0; line-height: 1.45; }
+      .steps { gap: 8px; margin-bottom: 16px; }
+      .steps p { line-height: 1.3; }
+      .actions { margin-top: 14px; }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero-card">
+        <img class="mark" src="../../public/icons/icon-48.png" alt="">
+        <p class="eyebrow">Configuração inicial</p>
+        <h1>Role páginas com movimentos da cabeça</h1>
+        <p class="lead">Em cerca de um minuto, você autoriza a câmera e ativa o controle na página que quer ler. Todo o processamento acontece neste dispositivo.</p>
+
+        <ol class="steps" aria-label="Primeiros passos">
+          <li><span>1</span><div><strong>Autorize somente a câmera</strong><p>A verificação abaixo liga o vídeo por um instante e o libera imediatamente.</p></div></li>
+          <li><span>2</span><div><strong>Abra uma página comum</strong><p>Use uma página cujo endereço comece com http ou https e abra o popup da extensão.</p></div></li>
+          <li><span>3</span><div><strong>Ative e fique em posição confortável</strong><p>A calibração define seu neutro. Depois, incline a cabeça para rolar.</p></div></li>
+          <li><span>4</span><div><strong>Pare a qualquer momento</strong><p>Use <b>Parar agora</b> no popup ou <kbd>Command+Shift+X</kbd>, mesmo com o popup fechado.</p></div></li>
+        </ol>
+
+        <div class="permission-card status-granted" role="status">
+          <span class="permission-icon" aria-hidden="true">●</span>
+          <div><strong>Câmera autorizada</strong><p>Permissão concedida. A câmera de verificação já foi liberada.</p></div>
+        </div>
+
+        <div class="actions">
+          <button>Concluir</button>
+          <span>Depois, abra o popup da extensão em uma página comum.</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

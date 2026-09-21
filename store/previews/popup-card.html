@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifras Scroll — sessão ativa</title>
+    <link rel="stylesheet" href="../../src/entrypoints/popup/style.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="brand-row">
+        <div><p class="eyebrow">Cifras Scroll</p><h1>Controle sem as mãos</h1></div>
+        <span class="status-dot phase-active" aria-hidden="true"></span>
+      </header>
+
+      <section class="status-card">
+        <div class="status-heading"><span>Ativo</span><strong>Neutro</strong></div>
+        <p>Controle ativo e em posição neutra.</p>
+        <p class="tab-name">Página de leitura</p>
+      </section>
+
+      <div class="live-banner">
+        <span class="live-pulse" aria-hidden="true"></span>
+        <strong>Câmera ligada · sessão ativa</strong>
+        <span>O selo no ícone também indica a sessão.</span>
+      </div>
+
+      <div class="action-row"><button class="button secondary">Recalibrar</button></div>
+      <button class="button danger emergency-stop"><span>Parar agora</span><kbd>Command+Shift+X</kbd></button>
+
+      <section class="settings">
+        <h2>Ajustes</h2>
+        <label><span><strong>Sensibilidade</strong><output>100%</output></span><input type="range" min="50" max="150" value="100"></label>
+        <label><span><strong>Velocidade</strong><output>900 px/s</output></span><input type="range" min="300" max="1800" value="900"></label>
+      </section>
+
+      <section class="diagnostics">
+        <div class="diagnostics-heading"><h2>Desempenho local</h2><span>janela de 5 s</span></div>
+        <dl>
+          <div><dt>Inferência</dt><dd>30,0 fps</dd></div>
+          <div><dt>Latência p50 / p95</dt><dd>16,0 / 18,4 ms</dd></div>
+          <div><dt>Carga da inferência</dt><dd>49%</dd></div>
+          <div><dt>Memória JS</dt><dd>9,6 MB</dd></div>
+          <div class="wide"><dt>Câmera</dt><dd>640×480 · 30 fps capturados</dd></div>
+        </dl>
+      </section>
+    </main>
+  </body>
+</html>
+

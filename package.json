@@ -1,13 +1,15 @@
 {
   "name": "cifras-scroll",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "wxt",
     "build": "vue-tsc --noEmit && wxt build",
+    "zip": "vue-tsc --noEmit && wxt zip",
     "test": "vitest run",
     "check": "pnpm test && pnpm build",
+    "release": "pnpm test && pnpm zip && node scripts/verify-release.mjs",
     "postinstall": "wxt prepare"
   },
   "dependencies": {

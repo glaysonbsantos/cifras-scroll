@@ -92,7 +92,7 @@ function closePage(): void {
 <template>
   <main class="page-shell">
     <section class="hero-card">
-      <div class="mark" aria-hidden="true">↕</div>
+      <img class="mark" src="/icons/icon-48.png" alt="">
       <p class="eyebrow">Configuração inicial</p>
       <h1>Role páginas com movimentos da cabeça</h1>
       <p class="lead">
