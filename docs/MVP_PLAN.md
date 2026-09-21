@@ -5,9 +5,9 @@
 ## Status
 
 - Estado geral: Fases 1, 2 e 3 aprovadas; Fase 3 consolidada na `main`
-- Fase atual: Fase 4 autorizada, ainda não iniciada
-- Próxima task proposta: definir e implementar a primeira task da Fase 4
-- Próxima task autorizada: iniciar a Fase 4
+- Fase atual: implementação técnica da Fase 4 concluída; validação física pendente
+- Próxima task proposta: executar a matriz manual da Fase 4 em pelo menos duas configurações de hardware
+- Próxima task autorizada: validar a Fase 4 sem avançar para a Fase 5
 
 ## Objetivo
 
@@ -168,17 +168,19 @@ Critério de aceite: a extensão controla uma página comum, continua após o po
 
 ### Fase 4 — Robustez, privacidade e desempenho
 
-Status: autorizada, não iniciada
+Status: implementação técnica concluída; validação física pendente
 
-- [ ] Tratar permissão negada ou revogada.
-- [ ] Tratar câmera ausente, ocupada ou desconectada.
-- [ ] Tratar recarga, navegação e troca de aba.
-- [ ] Tratar suspensão/reinício do service worker.
-- [ ] Informar páginas em que não é possível injetar scripts.
-- [ ] Verificar encerramento das tracks da câmera.
-- [ ] Auditar permissões e chamadas de rede.
+- [x] Tratar permissão negada ou revogada.
+- [x] Tratar câmera ausente, ocupada ou desconectada.
+- [x] Tratar recarga, navegação e troca de aba.
+- [x] Tratar suspensão/reinício do service worker.
+- [x] Informar páginas em que não é possível injetar scripts.
+- [x] Verificar encerramento das tracks da câmera.
+- [x] Auditar permissões e chamadas de rede.
 - [ ] Medir CPU, memória, FPS e latência.
 - [ ] Testar em mais de uma configuração de hardware.
+
+Evidência técnica: `pnpm check` executa 39 testes, verificação TypeScript e build WXT. A suíte cobre classificação de falhas da câmera, páginas protegidas, encerramento de todas as tracks em erro ou desconexão, política mínima do manifest e decisão segura de recuperação após reinício do service worker. O manifest gerado mantém somente `activeTab`, `scripting`, `storage` e `offscreen`, sem hosts permanentes, e limita conexões das páginas da extensão aos próprios assets. O popup agora expõe FPS, latência p50/p95, carga relativa da inferência, heap JavaScript quando disponível e configuração obtida da câmera. Essas métricas ainda não constituem uma medição real de CPU/memória nem substituem a matriz física em dois hardwares.
 
 Critério de aceite: falhas são seguras, a câmera sempre pode ser interrompida e nenhuma imagem ou frame sai do dispositivo.
 

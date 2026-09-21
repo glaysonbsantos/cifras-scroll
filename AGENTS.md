@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: Fase 3 aprovada e consolidada na `main`; Fase 4 autorizada, ainda não iniciada.
+- Fase atual: implementação técnica da Fase 4 concluída; validação física em pelo menos dois hardwares pendente.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build` e `pnpm check`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.

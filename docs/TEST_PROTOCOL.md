@@ -266,3 +266,31 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Evidência disponível: confirmação explícita do responsável; a `main` e a referência remota estavam alinhadas na revisão que contém a implementação e a correção do pipeline offscreen.
 - Limite: não foram fornecidas métricas agregadas nem observações detalhadas da rodada manual posterior à correção. Este registro não presume resultados de calibração, scroll ou encerramento da câmera além da aprovação declarada.
 - Próxima ação: a Fase 4 está autorizada.
+
+## Validações da Fase 4
+
+### Validação técnica 2026-09-21-1
+
+- Escopo: tratamento seguro de falhas de câmera, ciclo de vida de aba e service worker, instrumentação local de desempenho e auditoria estática de privacidade.
+- Verificações automatizadas: `pnpm check`; 39 testes aprovados, verificação TypeScript e build WXT aprovados.
+- Falhas cobertas: permissão negada/revogada, câmera ausente, ocupada, incompatível ou desconectada; fim inesperado do leitor de frames; página protegida ou não responsiva; fechamento, recarga, navegação, troca de aba/janela; e recuperação após reinício do service worker somente quando aba, documento offscreen e content script continuam válidos.
+- Encerramento de mídia: os testes confirmam cancelamento do leitor, remoção do observador de desconexão e chamada de `stop()` em todas as tracks do stream nos caminhos de parada, falha de inferência e desconexão.
+- Auditoria do pacote: o manifest gerado declara somente `activeTab`, `scripting`, `storage` e `offscreen`, sem `host_permissions`. A CSP restringe `connect-src` a `'self'`. O código da aplicação não contém cliente de rede ou telemetria; os mecanismos `fetch`/XHR presentes no runtime empacotado do MediaPipe carregam os caminhos locais de WASM e modelo fornecidos pela extensão.
+- Instrumentação: o popup mostra FPS, latência p50/p95, percentual do tempo da janela consumido pela inferência, heap JavaScript quando exposto pelo Chrome, resolução e FPS configurado da câmera. Os dados permanecem somente em memória.
+- Limite desta validação: não houve câmera real, revogação de permissão no Chrome, suspensão forçada do service worker nem medição pelo gerenciador de tarefas. Carga da inferência não equivale ao uso total de CPU do processo. Esta validação não marca CPU, memória ou compatibilidade entre hardwares como medidas.
+- Próxima ação: executar a matriz manual abaixo em pelo menos duas configurações e anexar somente métricas agregadas.
+
+### Matriz manual pendente da Fase 4
+
+Para cada hardware, executar uma sessão ativa e registrar:
+
+1. CPU média e pico e memória média e pico pelo gerenciador de tarefas do Chrome durante cinco minutos em neutro e cinco minutos com comandos.
+2. FPS, latência p50/p95 e carga relativa mostrados no popup ao final de cada intervalo.
+3. Revogação da permissão durante a sessão; confirmar scroll neutro, mensagem acionável e indicador físico da câmera apagado.
+4. Câmera ocupada antes de ativar e desconectada durante a sessão; confirmar encerramento seguro nos dois casos.
+5. Recarga, navegação, troca/fechamento de aba e troca de janela; confirmar que nenhuma página continua rolando e que a câmera é liberada.
+6. Reinício do service worker em `chrome://extensions`; confirmar retomada somente na mesma aba ainda válida ou encerramento seguro.
+7. Tentativa de ativação em `chrome://extensions` e Chrome Web Store; confirmar mensagem de página protegida.
+8. Painel Network do documento offscreen durante a sessão; confirmar somente recursos `chrome-extension://` e nenhuma origem remota.
+
+Registrar cada configuração usando o modelo de resultado deste protocolo. Não marcar os dois itens restantes da Fase 4 antes de obter os valores reais.
