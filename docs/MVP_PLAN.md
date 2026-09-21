@@ -219,13 +219,13 @@ Status: preparação local concluída e consolidada na `main`; pendências exter
 - [x] Criar comando reproduzível para gerar o ZIP de lançamento.
 - [x] Capturar e verificar screenshots representativas da interface final.
 - [ ] Validar o ZIP final instalado em perfil limpo.
-- [ ] Confirmar a URL pública da política após publicação da `main`.
+- [x] Confirmar a URL pública da política após publicação da `main`.
 - [ ] Enviar o item e concluir os campos do Developer Dashboard.
 - [ ] Obter aprovação da revisão do Google e publicar.
 
 Os itens do Developer Dashboard e da revisão dependem de ações externas e não devem ser marcados por preparação local.
 
-Evidência técnica: `pnpm release` executa 48 testes, verificação TypeScript, build WXT, geração do ZIP e auditoria do pacote. O arquivo `.output/cifras-scroll-1.0.0-chrome.zip` tem 10,37 MB, `manifest.json` na raiz, ícones 16/32/48/128, versão alinhada ao `package.json`, nenhum host permanente e somente `activeTab`, `scripting`, `storage` e `offscreen`. Os materiais da loja têm dimensões verificadas automaticamente.
+Evidência técnica: `pnpm release` executa 48 testes, verificação TypeScript, build WXT, geração do ZIP e auditoria do pacote. O arquivo `.output/cifras-scroll-1.0.0-chrome.zip` tem 10,37 MB, `manifest.json` na raiz, ícones 16/32/48/128, versão alinhada ao `package.json`, nenhum host permanente e somente `activeTab`, `scripting`, `storage` e `offscreen`. Os materiais da loja têm dimensões verificadas automaticamente. Após a publicação da `main`, a política respondeu publicamente sem autenticação em `https://github.com/glaysonbsantos/cifras-scroll/blob/main/PRIVACY.md`.
 
 Limite: o carregamento headless do Chrome não forneceu evidência confiável de instalação da extensão em um perfil limpo; essa verificação permanece manual. Política, upload, formulário e revisão também dependem de publicação ou interação externa.
 
