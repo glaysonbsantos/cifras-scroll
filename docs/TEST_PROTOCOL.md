@@ -1,6 +1,6 @@
 # Protocolo de testes do MVP
 
-Última atualização: 2026-09-20
+Última atualização: 2026-09-21
 
 ## Objetivo
 
@@ -259,3 +259,10 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Correção: a extensão passou a consumir `VideoFrame` diretamente da faixa da câmera com `MediaStreamTrackProcessor`, mantendo no máximo um frame em espera e fechando cada frame após a inferência. O pipeline não depende mais de pintura ou visibilidade do documento.
 - Verificações automatizadas: `pnpm check`; 24 testes aprovados, incluindo consumo de frame sem `requestAnimationFrame`, descarte do frame, interrupção das tracks em erro, verificação TypeScript e build WXT.
 - Limite desta validação: a correção ainda precisa ser recarregada no Chrome e repetida pelo responsável para confirmar calibração, scroll e encerramento real da câmera.
+
+### Encerramento da Fase 3 — 2026-09-21
+
+- Decisão: o responsável do projeto aprovou explicitamente a Fase 3 após a validação manual e consolidou as alterações na `main`.
+- Evidência disponível: confirmação explícita do responsável; a `main` e a referência remota estavam alinhadas na revisão que contém a implementação e a correção do pipeline offscreen.
+- Limite: não foram fornecidas métricas agregadas nem observações detalhadas da rodada manual posterior à correção. Este registro não presume resultados de calibração, scroll ou encerramento da câmera além da aprovação declarada.
+- Próxima ação: a Fase 4 está autorizada.

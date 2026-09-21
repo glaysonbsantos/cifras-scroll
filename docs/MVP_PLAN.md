@@ -1,13 +1,13 @@
 # Plano do MVP
 
-Última atualização: 2026-09-20
+Última atualização: 2026-09-21
 
 ## Status
 
-- Estado geral: Fases 1 e 2 aprovadas; implementação da Fase 3 pronta para validação manual
-- Fase atual: Fase 3 implementada na branch `codex/fase-3-extensao-chrome`; aprovação pendente
-- Próxima task proposta: validar a extensão no Chrome com câmera e página real
-- Próxima task autorizada: validação da Fase 3; não iniciar a Fase 4
+- Estado geral: Fases 1, 2 e 3 aprovadas; Fase 3 consolidada na `main`
+- Fase atual: Fase 4 autorizada, ainda não iniciada
+- Próxima task proposta: definir e implementar a primeira task da Fase 4
+- Próxima task autorizada: iniciar a Fase 4
 
 ## Objetivo
 
@@ -147,7 +147,7 @@ Critério de aceite: scroll controlável sem deriva relevante e com taxa aceitá
 
 ### Fase 3 — Extensão Chrome mínima
 
-Status: implementação concluída; validação manual pendente
+Status: concluída, aprovada e consolidada na `main`
 
 - [x] Criar projeto WXT + Vue em Manifest V3.
 - [x] Criar popup de ativação, estado e configurações.
@@ -162,13 +162,13 @@ Status: implementação concluída; validação manual pendente
 
 Evidência técnica: `pnpm check` executa 24 testes, verificação TypeScript e build WXT para Chrome MV3. Os testes incluem o ciclo de criação, reutilização concorrente e fechamento do documento offscreen, além do consumo e descarte seguro de frames diretamente da faixa de vídeo. O manifest gerado usa apenas `activeTab`, `scripting`, `storage` e `offscreen`; não declara acesso permanente a hosts. O onboarding foi inspecionado visualmente em viewport estreito sem ativar a câmera.
 
-Limite da validação: a extensão ainda não foi carregada no Chrome com permissão de câmera nesta rodada. Permanência da captura após fechar o popup, scroll em página real e liberação efetiva da câmera ao parar precisam ser confirmados pelo responsável do projeto antes da aprovação da fase.
+Registro de aceite: após a correção do pipeline offscreen, o responsável do projeto aprovou explicitamente a Fase 3, consolidou-a na `main` e publicou as branches no repositório remoto. Não foram fornecidas métricas detalhadas da rodada manual para registro; este plano não infere resultados quantitativos além da aprovação declarada.
 
 Critério de aceite: a extensão controla uma página comum, continua após o popup fechar e libera a câmera ao ser desativada.
 
 ### Fase 4 — Robustez, privacidade e desempenho
 
-Status: não iniciada
+Status: autorizada, não iniciada
 
 - [ ] Tratar permissão negada ou revogada.
 - [ ] Tratar câmera ausente, ocupada ou desconectada.

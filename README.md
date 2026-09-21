@@ -6,7 +6,7 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1 e 2 estão concluídas e aprovadas. A implementação da Fase 3 está pronta na branch `codex/fase-3-extensao-chrome` e aguarda validação manual no Chrome antes de ser considerada aprovada.
+As Fases 1, 2 e 3 estão concluídas e aprovadas. A Fase 3 foi consolidada na `main`; a Fase 4 está autorizada e ainda não foi iniciada.
 
 A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas.
 
