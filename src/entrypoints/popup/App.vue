@@ -129,7 +129,9 @@ async function runCommand(command: PopupCommand): Promise<void> {
   try {
     const result = await send(command)
     if (result.state) state.value = result.state
-    if (!result.ok) errorMessage.value = result.error ?? 'Não foi possível concluir a ação.'
+    if (!result.ok && result.error !== result.state?.message) {
+      errorMessage.value = result.error ?? 'Não foi possível concluir a ação.'
+    }
   } catch (reason) {
     errorMessage.value = reason instanceof Error ? reason.message : String(reason)
   } finally {
