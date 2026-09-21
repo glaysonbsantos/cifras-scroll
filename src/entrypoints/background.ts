@@ -22,6 +22,8 @@ import {
   namedError,
   pageFailureMessage,
 } from '../extension/sessionSafety'
+import { EMERGENCY_STOP_COMMAND } from '../extension/emergencyStop'
+import { sessionIndicator } from '../extension/sessionIndicator'
 import {
   DEFAULT_SETTINGS,
   normalizeSettings,
@@ -63,6 +65,12 @@ export default defineBackground(() => {
   browser.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
       void browser.tabs.create({ url: browser.runtime.getURL('/onboarding.html') })
+    }
+  })
+
+  browser.commands.onCommand.addListener((command) => {
+    if (command === EMERGENCY_STOP_COMMAND) {
+      void ready.then(() => stopSession())
     }
   })
 
@@ -395,6 +403,13 @@ export default defineBackground(() => {
   }
 
   async function broadcastState(): Promise<void> {
+    const indicator = sessionIndicator(state.phase, state.tabTitle)
+    await Promise.all([
+      browser.action.setBadgeText({ text: indicator.badgeText }),
+      browser.action.setBadgeBackgroundColor({ color: indicator.badgeColor }),
+      browser.action.setTitle({ title: indicator.title }),
+    ]).catch(() => undefined)
+
     const event: StateChangedEvent = { target: 'popup', type: 'STATE_CHANGED', state }
     await browser.runtime.sendMessage(event).catch(() => undefined)
   }

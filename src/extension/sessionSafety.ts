@@ -30,29 +30,28 @@ export function classifyCameraFailure(reason: unknown): SessionFailureKind {
 export function cameraFailureMessage(reason: unknown): string {
   switch (classifyCameraFailure(reason)) {
     case 'PERMISSION_DENIED':
-      return 'A permissão da câmera foi negada ou revogada. Libere o acesso nas configurações do Chrome e tente novamente.'
+      return 'O Chrome bloqueou a câmera. Abra a ajuda de câmera, libere o acesso e tente novamente.'
     case 'CAMERA_MISSING':
-      return 'Nenhuma câmera de vídeo foi encontrada. Conecte uma câmera e tente novamente.'
+      return 'Nenhuma câmera foi encontrada. Conecte ou habilite uma câmera e tente novamente.'
     case 'CAMERA_BUSY':
-      return 'A câmera está ocupada por outro aplicativo ou indisponível. Feche o outro uso e tente novamente.'
+      return 'Outro aplicativo pode estar usando a câmera. Feche esse aplicativo e tente novamente.'
     case 'CONSTRAINT_UNAVAILABLE':
-      return 'A câmera não oferece uma configuração de vídeo compatível.'
+      return 'Esta câmera não ofereceu um modo de vídeo compatível. Reconecte-a ou escolha outra câmera no Chrome.'
     case 'CAMERA_DISCONNECTED':
-      return 'A câmera foi desconectada ou deixou de fornecer vídeo. A sessão foi encerrada com segurança.'
+      return 'A câmera foi desconectada. A sessão foi encerrada e o scroll parou; reconecte-a antes de tentar novamente.'
     default:
-      return `A sessão foi interrompida: ${errorFrom(reason).message}`
+      return 'A câmera parou inesperadamente. Verifique a conexão, feche outros aplicativos que usam câmera e tente novamente.'
   }
 }
 
 export function pageFailureMessage(url: string | undefined, reason?: unknown): string {
   if (!isSupportedPageUrl(url)) {
-    return 'Esta página é protegida pelo navegador. Abra uma página comum com endereço http ou https.'
+    return 'O Chrome não permite controle nesta página. Abra uma página comum com endereço iniciado por http ou https.'
   }
 
-  const detail = reason ? errorFrom(reason).message : ''
-  return detail
-    ? `Não foi possível controlar esta página. O Chrome bloqueou a injeção do scroll (${detail}).`
-    : 'Não foi possível controlar esta página. O Chrome bloqueou a injeção do scroll.'
+  return reason
+    ? 'Não foi possível preparar o controle nesta página. Recarregue a página e tente novamente; se continuar, use outra página comum.'
+    : 'Não foi possível preparar o controle nesta página. Recarregue a página e tente novamente.'
 }
 
 export function namedError(name: string, message: string): Error {

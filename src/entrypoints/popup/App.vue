@@ -12,6 +12,10 @@ import {
   SETTINGS_LIMITS,
   type ExtensionSettings,
 } from '../../extension/settings'
+import {
+  EMERGENCY_STOP_COMMAND,
+  EMERGENCY_STOP_DEFAULT_SHORTCUT,
+} from '../../extension/emergencyStop'
 
 type CameraPermission = PermissionState | 'checking' | 'unsupported'
 
@@ -29,6 +33,7 @@ const state = ref<SessionSnapshot>({
 const permission = ref<CameraPermission>('checking')
 const busy = ref(false)
 const errorMessage = ref('')
+const emergencyShortcut = ref(EMERGENCY_STOP_DEFAULT_SHORTCUT)
 let permissionStatus: PermissionStatus | null = null
 let stateRefreshTimer: number | null = null
 
@@ -53,11 +58,16 @@ const cameraLabel = computed(() => {
   const fps = metrics.cameraFrameRate ? ` · ${metrics.cameraFrameRate.toFixed(0)} fps capturados` : ''
   return `${metrics.cameraWidth}×${metrics.cameraHeight}${fps}`
 })
+const liveStatusLabel = computed(() => {
+  if (state.value.phase === 'PAUSED') return 'Câmera ligada · scroll pausado'
+  if (state.value.phase === 'ACTIVE') return 'Câmera ligada · sessão ativa'
+  return 'Sessão em preparação'
+})
 
 onMounted(async () => {
   browser.runtime.onMessage.addListener(handleRuntimeMessage)
   window.addEventListener('focus', checkPermission)
-  await Promise.all([refreshState(), checkPermission()])
+  await Promise.all([refreshState(), checkPermission(), loadEmergencyShortcut()])
   stateRefreshTimer = window.setInterval(() => { void refreshState() }, 1_000)
 })
 
@@ -87,6 +97,16 @@ async function checkPermission(): Promise<void> {
     }
   } catch {
     permission.value = 'unsupported'
+  }
+}
+
+async function loadEmergencyShortcut(): Promise<void> {
+  try {
+    const commands = await browser.commands.getAll()
+    const stopCommand = commands.find((command) => command.name === EMERGENCY_STOP_COMMAND)
+    if (stopCommand?.shortcut) emergencyShortcut.value = stopCommand.shortcut
+  } catch {
+    // O texto padrão continua útil quando o navegador não expõe a lista de atalhos.
   }
 }
 
@@ -182,6 +202,12 @@ function isStateChangedEvent(message: unknown): message is StateChangedEvent {
       </div>
     </section>
 
+    <div v-if="isRunning" class="live-banner" role="status">
+      <span class="live-pulse" aria-hidden="true"></span>
+      <strong>{{ liveStatusLabel }}</strong>
+      <span>O selo no ícone também indica a sessão.</span>
+    </div>
+
     <p v-if="errorMessage" class="error-message" role="alert">{{ errorMessage }}</p>
 
     <div class="action-row">
@@ -195,9 +221,23 @@ function isStateChangedEvent(message: unknown): message is StateChangedEvent {
         <button class="button secondary" :disabled="busy || state.phase === 'STARTING'" @click="recalibrate">
           Recalibrar
         </button>
-        <button class="button danger" :disabled="busy" @click="stopSession">Parar</button>
       </template>
     </div>
+
+    <button
+      v-if="isRunning"
+      class="button danger emergency-stop"
+      :disabled="busy"
+      :aria-keyshortcuts="emergencyShortcut"
+      @click="stopSession"
+    >
+      <span>Parar agora</span>
+      <kbd>{{ emergencyShortcut }}</kbd>
+    </button>
+
+    <button v-if="state.phase === 'ERROR'" class="help-button" @click="openOnboarding">
+      Abrir ajuda de câmera e primeiros passos
+    </button>
 
     <section class="settings" aria-labelledby="settings-title">
       <h2 id="settings-title">Ajustes</h2>
@@ -241,7 +281,7 @@ function isStateChangedEvent(message: unknown): message is StateChangedEvent {
 
     <footer>
       <span>Vídeo local · sem áudio · sem gravação</span>
-      <button class="link-button" @click="openOnboarding">Permissão</button>
+      <button class="link-button" @click="openOnboarding">Ajuda</button>
     </footer>
   </main>
 </template>

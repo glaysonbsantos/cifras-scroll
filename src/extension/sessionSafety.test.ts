@@ -30,7 +30,8 @@ describe('segurança da sessão', () => {
     const cameraError = new Error('Permission denied')
     cameraError.name = 'NotAllowedError'
 
-    expect(cameraFailureMessage(cameraError)).toContain('negada ou revogada')
-    expect(pageFailureMessage('chrome://extensions')).toContain('protegida pelo navegador')
+    expect(cameraFailureMessage(cameraError)).toContain('Abra a ajuda de câmera')
+    expect(pageFailureMessage('chrome://extensions')).toContain('não permite controle')
+    expect(pageFailureMessage('https://example.com', new Error('interno'))).not.toContain('interno')
   })
 })

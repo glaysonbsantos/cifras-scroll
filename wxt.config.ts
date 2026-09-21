@@ -4,6 +4,11 @@ import {
   EXTENSION_PAGE_CSP,
   EXTENSION_PERMISSIONS,
 } from './src/extension/manifestPolicy'
+import {
+  EMERGENCY_STOP_COMMAND,
+  EMERGENCY_STOP_DEFAULT_SHORTCUT,
+  EMERGENCY_STOP_MAC_SHORTCUT,
+} from './src/extension/emergencyStop'
 
 export default defineConfig({
   srcDir: 'src',
@@ -17,6 +22,15 @@ export default defineConfig({
     host_permissions: [...EXTENSION_HOST_PERMISSIONS],
     action: {
       default_title: 'Cifras Scroll',
+    },
+    commands: {
+      [EMERGENCY_STOP_COMMAND]: {
+        suggested_key: {
+          default: EMERGENCY_STOP_DEFAULT_SHORTCUT,
+          mac: EMERGENCY_STOP_MAC_SHORTCUT,
+        },
+        description: 'Parar imediatamente o scroll e liberar a câmera',
+      },
     },
     content_security_policy: {
       extension_pages: EXTENSION_PAGE_CSP,

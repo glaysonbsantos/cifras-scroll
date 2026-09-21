@@ -25,6 +25,10 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: 1.7rem; letter-spacing: 
 .status-card .tab-name { overflow: hidden; color: #24362b; font-size: .75rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
 .progress { height: 6px; margin-top: 14px; overflow: hidden; border-radius: 999px; background: #e2e5df; }
 .progress span { display: block; height: 100%; border-radius: inherit; background: #28724e; transition: width .15s linear; }
+.live-banner { display: grid; grid-template-columns: auto 1fr; gap: 2px 9px; margin: 0 0 13px; padding: 10px 12px; border: 1px solid #b9d8c2; border-radius: 11px; background: #e5f1e7; color: #174d32; }
+.live-banner strong { font-size: .78rem; }
+.live-banner > span:last-child { grid-column: 2; color: #4e6c5a; font-size: .68rem; }
+.live-pulse { width: 8px; height: 8px; margin-top: 4px; border-radius: 50%; background: #218452; box-shadow: 0 0 0 4px rgba(33, 132, 82, .13); }
 .error-message { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: #f7ded9; color: #842f27; font-size: .79rem; line-height: 1.4; }
 .action-row { display: flex; gap: 9px; }
 .button { flex: 1; border: 0; border-radius: 11px; padding: 11px 13px; cursor: pointer; font-weight: 760; }
@@ -32,6 +36,9 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: 1.7rem; letter-spacing: 
 .button.primary { background: #206b47; color: white; }
 .button.secondary { background: #e2e5df; color: #26342c; }
 .button.danger { background: #9b4035; color: white; }
+.emergency-stop { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 9px; text-align: left; }
+kbd { border: 1px solid rgba(255, 255, 255, .38); border-radius: 6px; padding: 3px 6px; background: rgba(255, 255, 255, .12); color: inherit; font-family: inherit; font-size: .66rem; font-weight: 750; }
+.help-button { width: 100%; margin-top: 9px; border: 1px solid #d8b1ab; border-radius: 10px; padding: 9px 11px; background: transparent; color: #842f27; cursor: pointer; font-size: .74rem; font-weight: 750; }
 .settings, .diagnostics { margin-top: 22px; }
 .settings h2, .diagnostics h2 { margin: 0 0 14px; font-family: Georgia, serif; font-size: 1.15rem; }
 .settings label { display: grid; gap: 8px; margin-top: 14px; }
