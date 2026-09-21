@@ -6,7 +6,7 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1, 2, 3 e 4 estão concluídas, aprovadas e consolidadas na `main`. A implementação da Fase 5 está na branch `codex/fase-5-mvp-instalavel`; a rodada final com outra pessoa, câmera e páginas reais permanece pendente antes da aprovação. Medição de CPU total e repetição em um segundo hardware continuam como acompanhamentos documentados da Fase 4.
+As Fases 1, 2, 3, 4 e 5 estão concluídas e aprovadas. A Fase 5 foi validada manualmente em 2026-09-21, sem bugs relatados, e está autorizada para consolidação na `main`. Medição de CPU total e repetição em um segundo hardware continuam como acompanhamentos documentados da Fase 4.
 
 A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas. Falhas de câmera e mudanças da aba encerram a sessão com segurança, e uma sessão só é recuperada após reinício do service worker quando o mesmo alvo ainda é válido.
 

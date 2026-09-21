@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: implementação da Fase 5 concluída na branch `codex/fase-5-mvp-instalavel`; checklist manual com outra pessoa, câmera e páginas reais pendente antes da aprovação. Medição de CPU total e segundo hardware permanecem como acompanhamentos da Fase 4.
+- Fase atual: Fase 5 aprovada e autorizada para consolidação na `main`; preparação para publicação na Chrome Web Store é a próxima task. Medição de CPU total e segundo hardware permanecem como acompanhamentos da Fase 4.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build` e `pnpm check`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.

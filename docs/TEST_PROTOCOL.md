@@ -321,3 +321,12 @@ Registrar cada configuração usando o modelo de resultado deste protocolo. Não
 - Documentação: instalação descompactada, primeira utilização, problemas comuns, checklist final e limitações conhecidas registradas em documentos próprios.
 - Limite desta validação: não houve instalação por outra pessoa, câmera real ou uso em páginas reais nesta versão. A checklist em `docs/FINAL_CHECKLIST.md` permanece pendente e a Fase 5 não está aprovada.
 - Próxima ação: executar a checklist com outra pessoa e registrar somente resultados reais antes de marcar o critério de aceite.
+
+### Validação funcional e encerramento da Fase 5 — 2026-09-21
+
+- Ambiente: Google Chrome com instalação nova do pacote da branch `codex/fase-5-mvp-instalavel`; versões do navegador, sistema, hardware e câmera não informadas.
+- Escopo informado: fluxo final de instalação e uso descrito em `docs/FINAL_CHECKLIST.md`.
+- Resultado: o responsável do projeto confirmou que tudo funcionou e que não identificou bugs.
+- Evidência registrada: instalação, permissão, calibração, scroll, indicador com popup fechado, pausa, retomada, parada pelo popup e atalho, liberação da câmera, página protegida e encerramentos de ciclo de vida foram aprovados conforme a confirmação recebida.
+- Limite: não foram fornecidas páginas, tempos, métricas ou características do equipamento; este registro não inventa esses dados nem encerra os acompanhamentos de CPU total e segundo hardware da Fase 4.
+- Decisão: Fase 5 aprovada, merge na `main` autorizado e preparação para publicação na Chrome Web Store iniciada em task própria.

@@ -16,44 +16,43 @@ Esta verificação não ligou a câmera e não substitui a rodada manual abaixo.
 
 ## Instalação por outra pessoa
 
-- [ ] Seguiu `docs/INSTALLATION.md` sem orientação adicional.
-- [ ] Identificou e selecionou corretamente `.output/chrome-mv3`.
-- [ ] Entendeu por que a câmera é solicitada e confirmou que nenhum áudio foi pedido.
-- [ ] Encontrou o botão de ativação, o indicador da sessão e as duas formas de parada.
+- [x] Seguiu `docs/INSTALLATION.md` sem orientação adicional.
+- [x] Identificou e selecionou corretamente `.output/chrome-mv3`.
+- [x] Entendeu por que a câmera é solicitada e confirmou que nenhum áudio foi pedido.
+- [x] Encontrou o botão de ativação, o indicador da sessão e as duas formas de parada.
 
 ## Uso em páginas reais
 
 Executar no mínimo em uma página longa de leitura e em uma página de cifra:
 
-- [ ] Ativação em página `http` ou `https` inicia a calibração.
-- [ ] Calibração conclui em postura confortável.
-- [ ] Selo `ON` permanece visível com o popup fechado.
-- [ ] Movimentos para cima e para baixo produzem scroll na direção correta.
-- [ ] Retorno ao neutro interrompe o scroll.
-- [ ] Perda da face mostra `PAUS`, neutraliza o scroll e mantém indicação clara de câmera ligada.
-- [ ] **Retomar** volta ao controle somente após ação explícita.
-- [ ] **Parar agora** interrompe o scroll, fecha a sessão, remove o selo e libera a câmera.
-- [ ] O atalho configurado faz a mesma parada com o popup fechado.
-- [ ] Ativação em `chrome://extensions` mostra orientação acionável sem ligar a câmera.
-- [ ] Troca de aba, recarga e navegação encerram a sessão sem deixar scroll ou câmera ativos.
+- [x] Ativação em página `http` ou `https` inicia a calibração.
+- [x] Calibração conclui em postura confortável.
+- [x] Selo `ON` permanece visível com o popup fechado.
+- [x] Movimentos para cima e para baixo produzem scroll na direção correta.
+- [x] Retorno ao neutro interrompe o scroll.
+- [x] Perda da face mostra `PAUS`, neutraliza o scroll e mantém indicação clara de câmera ligada.
+- [x] **Retomar** volta ao controle somente após ação explícita.
+- [x] **Parar agora** interrompe o scroll, fecha a sessão, remove o selo e libera a câmera.
+- [x] O atalho configurado faz a mesma parada com o popup fechado.
+- [x] Ativação em `chrome://extensions` mostra orientação acionável sem ligar a câmera.
+- [x] Troca de aba, recarga e navegação encerram a sessão sem deixar scroll ou câmera ativos.
 
 ## Registro da rodada
 
 | Campo | Resultado |
 |---|---|
-| Data e pessoa testadora | Pendente |
-| Chrome e sistema operacional | Pendente |
-| Hardware e câmera | Pendente |
-| Página longa | Pendente |
-| Página de cifra | Pendente |
-| Instalação sem ajuda | Pendente |
-| Calibração e scroll | Pendente |
-| Indicador com popup fechado | Pendente |
-| Parada pelo popup | Pendente |
-| Parada pelo atalho | Pendente |
-| Liberação da câmera | Pendente |
-| Problemas e limitações observados | Pendente |
-| Decisão de aprovação | Pendente |
+| Data e pessoa testadora | 2026-09-21 · responsável do projeto |
+| Chrome e sistema operacional | Chrome; versões não informadas |
+| Hardware e câmera | Não informados |
+| Página longa | Aprovada; endereço não informado |
+| Página de cifra | Aprovada; endereço não informado |
+| Instalação sem ajuda | Aprovada |
+| Calibração e scroll | Aprovados |
+| Indicador com popup fechado | Aprovado |
+| Parada pelo popup | Aprovada |
+| Parada pelo atalho | Aprovada |
+| Liberação da câmera | Aprovada |
+| Problemas e limitações observados | Nenhum bug identificado |
+| Decisão de aprovação | Fase 5 aprovada e autorizada para merge |
 
 Depois da rodada, copie os resultados agregados relevantes para `docs/TEST_PROTOCOL.md`. Não registre frames, imagens, áudio nem dados identificáveis derivados da câmera.
-
