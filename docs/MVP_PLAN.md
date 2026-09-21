@@ -4,10 +4,10 @@
 
 ## Status
 
-- Estado geral: Fases 1, 2, 3, 4 e 5 aprovadas; Fase 5 autorizada para consolidação na `main`
-- Fase atual: preparação para publicação na Chrome Web Store
-- Próxima task proposta: preparar identidade visual, privacidade, pacote e conteúdo da loja em branch própria
-- Próxima task autorizada: consolidar a Fase 5 e iniciar a preparação para publicação
+- Estado geral: Fases 1, 2, 3, 4 e 5 aprovadas e consolidadas na `main`
+- Fase atual: preparação local da versão pública `1.0.0` concluída; validação final e submissão pendentes
+- Próxima task proposta: instalar o ZIP final em perfil limpo, publicar a política e preencher o Developer Dashboard
+- Próxima task autorizada: preparar identidade visual, privacidade, pacote e conteúdo da loja em branch própria
 
 ## Objetivo
 
@@ -207,6 +207,27 @@ Evidência funcional: o responsável do projeto informou ter executado o fluxo d
 Registro de aceite: o responsável aprovou a Fase 5, solicitou sua consolidação na `main` e autorizou o início da preparação para publicação na Chrome Web Store.
 
 Critério de aceite: outra pessoa consegue instalar, conceder permissão, calibrar, usar e desativar o MVP seguindo a documentação.
+
+### Preparação para publicação — Chrome Web Store
+
+Status: preparação local concluída na branch `codex/publicacao-chrome-web-store`; pendências externas abertas
+
+- [x] Consolidar a Fase 5 na `main`.
+- [x] Definir identidade visual e ícones de distribuição.
+- [x] Preparar política de privacidade pública.
+- [x] Preparar conteúdo, privacidade e instruções de revisão da loja.
+- [x] Criar comando reproduzível para gerar o ZIP de lançamento.
+- [x] Capturar e verificar screenshots representativas da interface final.
+- [ ] Validar o ZIP final instalado em perfil limpo.
+- [ ] Confirmar a URL pública da política após publicação da `main`.
+- [ ] Enviar o item e concluir os campos do Developer Dashboard.
+- [ ] Obter aprovação da revisão do Google e publicar.
+
+Os itens do Developer Dashboard e da revisão dependem de ações externas e não devem ser marcados por preparação local.
+
+Evidência técnica: `pnpm release` executa 48 testes, verificação TypeScript, build WXT, geração do ZIP e auditoria do pacote. O arquivo `.output/cifras-scroll-1.0.0-chrome.zip` tem 10,37 MB, `manifest.json` na raiz, ícones 16/32/48/128, versão alinhada ao `package.json`, nenhum host permanente e somente `activeTab`, `scripting`, `storage` e `offscreen`. Os materiais da loja têm dimensões verificadas automaticamente.
+
+Limite: o carregamento headless do Chrome não forneceu evidência confiável de instalação da extensão em um perfil limpo; essa verificação permanece manual. Política, upload, formulário e revisão também dependem de publicação ou interação externa.
 
 ## Metas provisórias
 

@@ -171,3 +171,12 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: o popup pode permanecer fechado durante o uso; indicador e parada não podem depender do ciclo de vida da interface. O selo `ON` identifica preparação, calibração e sessão ativa, `PAUS` informa que a câmera continua ligada com scroll pausado e `!` sinaliza uma interrupção que requer atenção.
 - Consequência: o manifest inclui um atalho sugerido, sem nova permissão. O Chrome ou a pessoa usuária pode alterar ou remover a combinação; o popup consulta o atalho efetivo e mantém **Parar agora** como alternativa. Toda parada neutraliza o scroll, encerra o pipeline e fecha o documento offscreen.
 - Revisar se: a checklist mostrar conflito frequente do atalho, baixa legibilidade do selo ou necessidade de um indicador dentro da página controlada.
+
+## D-019 — Preparar a distribuição pública como versão 1.0.0
+
+- Status: aceita para publicação
+- Data: 2026-09-21
+- Decisão: usar `package.json` como fonte da versão pública, gerar o pacote com WXT e distribuir a primeira versão aprovada como `1.0.0`. O pacote inclui ícones PNG próprios e mantém modelo, WASM e código necessários em runtime localmente.
+- Motivo: evitar divergência de versão entre projeto e manifest, produzir um ZIP reproduzível e atender aos requisitos de identidade e transparência da Chrome Web Store.
+- Consequência: `pnpm release` executa testes, verificação TypeScript e geração do ZIP. Política, textos da loja, justificativas de permissões e instruções de revisão ficam versionados junto ao código; a política pública usa o repositório oficial e precisa estar acessível sem autenticação antes da submissão.
+- Revisar se: a loja exigir outro formato de material, a URL pública mudar ou uma atualização futura alterar permissões, dados tratados ou finalidade única.

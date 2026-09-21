@@ -330,3 +330,13 @@ Registrar cada configuração usando o modelo de resultado deste protocolo. Não
 - Evidência registrada: instalação, permissão, calibração, scroll, indicador com popup fechado, pausa, retomada, parada pelo popup e atalho, liberação da câmera, página protegida e encerramentos de ciclo de vida foram aprovados conforme a confirmação recebida.
 - Limite: não foram fornecidas páginas, tempos, métricas ou características do equipamento; este registro não inventa esses dados nem encerra os acompanhamentos de CPU total e segundo hardware da Fase 4.
 - Decisão: Fase 5 aprovada, merge na `main` autorizado e preparação para publicação na Chrome Web Store iniciada em task própria.
+
+### Validação técnica do pacote público 1.0.0 — 2026-09-21
+
+- Escopo: identidade visual, manifest, materiais da loja, política pública, conteúdo de submissão e ZIP de lançamento.
+- Verificações automatizadas: `pnpm release`; 48 testes aprovados, verificação TypeScript, build WXT, geração de ZIP e auditoria estrutural aprovados.
+- Pacote: `.output/cifras-scroll-1.0.0-chrome.zip`, 10,37 MB, com `manifest.json` na raiz, ícones declarados e assets locais de modelo e WASM.
+- Permissões: permanecem `activeTab`, `scripting`, `storage` e `offscreen`, sem `host_permissions`; CSP mantém `connect-src 'self'`.
+- Materiais: ícone 128×128, imagem promocional 440×280 e duas screenshots 1280×800 tiveram formato e dimensões verificados automaticamente e foram inspecionados visualmente sem câmera.
+- Privacidade: política bilíngue, justificativas das permissões e instruções ao revisor foram preparadas; nenhuma alteração ampliou captura, persistência ou rede da extensão.
+- Limite: a tentativa headless não comprovou que o ZIP foi instalado em perfil limpo e não ativou a câmera. URL pública, Developer Dashboard e revisão do Google permanecem externos e pendentes.
