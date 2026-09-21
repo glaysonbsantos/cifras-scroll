@@ -1,6 +1,6 @@
 # Registro de decisões
 
-Última atualização: 2026-09-20
+Última atualização: 2026-09-21
 
 Este documento registra decisões que afetam arquitetura, escopo, dependências, privacidade ou permissões. Uma decisão pode ser substituída, mas não deve ser apagada; registre a decisão nova e indique a anterior.
 
@@ -153,3 +153,12 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: a primeira validação no Chrome mostrou que o documento offscreen permanecia em calibração porque callbacks ligados à pintura não avançavam de forma confiável em um contexto oculto. O processador de faixa entrega frames de mídia independentemente da renderização da página.
 - Consequência: cada frame é processado localmente e fechado imediatamente após a inferência; a fila é limitada a um frame para evitar atraso acumulado. Nenhum frame atravessa a mensageria da extensão ou é persistido.
 - Revisar se: testes em hardware real não alcançarem a meta de inferências por segundo, o Chrome remover a exposição dessa API no contexto Window ou a inferência exigir migração integral para Worker.
+
+## D-017 — Falhar de forma fechada e recuperar a sessão pelo documento offscreen
+
+- Status: aceita para a Fase 4
+- Data: 2026-09-21
+- Decisão: encerrar scroll e câmera quando a aba vinculada fechar, recarregar, navegar, perder foco para outra aba/janela ou deixar de responder. Após reinício do service worker, consultar o estado efêmero mantido pelo documento offscreen e recuperar a sessão somente se a mesma aba HTTP(S) continuar ativa e o content script responder.
+- Motivo: o estado somente em memória do service worker é descartado pelo ciclo de vida do Manifest V3, enquanto continuar enviando intenções para um alvo ausente ou diferente viola o limite de uma aba e pode manter a câmera ligada sem controle útil.
+- Consequência: nenhuma sessão ou baseline é persistido. O offscreen mantém apenas pose derivada, estado, métricas agregadas e identificação efêmera da aba durante a sessão. Falhas de câmera e entrega encerram o movimento imediatamente; permissão revogada e track encerrada também liberam todas as tracks. Métricas de desempenho permanecem em memória e a CSP limita conexões a assets empacotados da própria extensão.
+- Revisar se: testes reais mostrarem que encerrar ao trocar de aba/janela é excessivamente restritivo ou que a recuperação do offscreen não é confiável em versões suportadas do Chrome.

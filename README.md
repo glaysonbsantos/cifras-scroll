@@ -6,9 +6,9 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1, 2 e 3 estão concluídas e aprovadas. A Fase 3 foi consolidada na `main`; a Fase 4 está autorizada e ainda não foi iniciada.
+As Fases 1, 2, 3 e 4 estão concluídas, aprovadas e consolidadas na `main`. A Fase 5 está pronta para planejamento e ainda não foi iniciada. Medição de CPU total e repetição em um segundo hardware permanecem como acompanhamentos documentados da Fase 4.
 
-A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas.
+A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas. Falhas de câmera e mudanças da aba encerram a sessão com segurança, e uma sessão só é recuperada após reinício do service worker quando o mesmo alvo ainda é válido.
 
 ## Executar a extensão em desenvolvimento
 
@@ -22,6 +22,8 @@ pnpm dev
 O WXT gera a extensão de desenvolvimento em `.output/chrome-mv3-dev`. Carregue esse diretório temporariamente em `chrome://extensions`, com o modo do desenvolvedor ativo. Na primeira instalação, a tela de onboarding solicita somente vídeo e libera imediatamente a câmera usada para verificar a permissão.
 
 Abra uma página `http` ou `https`, clique no ícone da extensão e use **Ativar nesta aba**. A calibração começa automaticamente; o popup pode ser fechado quando o estado ficar ativo. **Parar** encerra a sessão e libera a câmera.
+
+Durante a sessão, o popup mostra métricas locais de FPS, latência, carga relativa da inferência, memória JavaScript quando disponível e configuração da câmera. Os valores não são persistidos nem enviados.
 
 Para executar todas as verificações automatizadas e gerar o pacote de produção em `.output/chrome-mv3`:
 

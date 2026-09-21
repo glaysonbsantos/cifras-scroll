@@ -4,15 +4,19 @@ import { CameraPipeline, type CameraDetector } from './cameraPipeline'
 
 function cameraFixture() {
   const stopTrack = vi.fn()
+  const addEventListener = vi.fn()
+  const removeEventListener = vi.fn()
   const track = {
     getSettings: () => ({ width: 640, height: 480, frameRate: 30 }),
     stop: stopTrack,
+    addEventListener,
+    removeEventListener,
   } as unknown as MediaStreamTrack
   const stream = {
     getVideoTracks: () => [track],
     getTracks: () => [track],
   } as unknown as MediaStream
-  return { stopTrack, stream, track }
+  return { addEventListener, removeEventListener, stopTrack, stream, track }
 }
 
 describe('CameraPipeline', () => {
@@ -85,5 +89,41 @@ describe('CameraPipeline', () => {
 
     expect(closeFrame).toHaveBeenCalledOnce()
     expect(stopTrack).toHaveBeenCalledOnce()
+  })
+
+  it('interrompe a sessão e todas as tracks quando a câmera é desconectada', async () => {
+    const fixture = cameraFixture()
+    const stopAuxiliaryTrack = vi.fn()
+    const stream = {
+      getVideoTracks: () => [fixture.track],
+      getTracks: () => [fixture.track, { stop: stopAuxiliaryTrack }],
+    } as unknown as MediaStream
+    const pending = new Promise<ReadableStreamReadResult<VideoFrame>>(() => undefined)
+    const onError = vi.fn()
+    const pipeline = new CameraPipeline(
+      { onFrame: vi.fn(), onCameraReady: vi.fn(), onError },
+      {
+        detector: {
+          initialize: vi.fn().mockResolvedValue(undefined),
+          detect: vi.fn(),
+          close: vi.fn(),
+        },
+        getUserMedia: vi.fn().mockResolvedValue(stream),
+        createFrameReader: () => ({
+          read: vi.fn().mockReturnValue(pending),
+          cancel: vi.fn().mockResolvedValue(undefined),
+        } as unknown as ReadableStreamDefaultReader<VideoFrame>),
+      },
+    )
+
+    await pipeline.start()
+    const endedListener = fixture.addEventListener.mock.calls.find(([event]) => event === 'ended')?.[1]
+    expect(endedListener).toBeTypeOf('function')
+    endedListener()
+
+    expect(onError).toHaveBeenCalledWith(expect.objectContaining({ name: 'CameraDisconnectedError' }))
+    expect(fixture.removeEventListener).toHaveBeenCalledWith('ended', endedListener)
+    expect(fixture.stopTrack).toHaveBeenCalledOnce()
+    expect(stopAuxiliaryTrack).toHaveBeenCalledOnce()
   })
 })

@@ -12,6 +12,16 @@ export class MetricsTracker {
   private faceLosses = 0
   private faceRecoveries = 0
 
+  reset(): void {
+    this.timestamps = []
+    this.latencies = []
+    this.previousAction = 'NEUTRAL'
+    this.previousFacePresent = false
+    this.stateChanges = 0
+    this.faceLosses = 0
+    this.faceRecoveries = 0
+  }
+
   record(timestamp: number, latencyMs: number, action: ScrollAction, facePresent: boolean): void {
     const windowStart = timestamp - METRICS_WINDOW_MS
     this.timestamps.push(timestamp)
@@ -39,6 +49,9 @@ export class MetricsTracker {
       latencyMs: this.latencies.at(-1) ?? 0,
       latencyP50Ms: percentile(this.latencies, 0.5),
       latencyP95Ms: percentile(this.latencies, 0.95),
+      processingLoadPercent: duration > 0
+        ? Math.min(100, (this.latencies.reduce((sum, value) => sum + value, 0) / duration) * 100)
+        : 0,
       stateChanges: this.stateChanges,
       faceLosses: this.faceLosses,
       faceRecoveries: this.faceRecoveries,

@@ -4,10 +4,10 @@
 
 ## Status
 
-- Estado geral: Fases 1, 2 e 3 aprovadas; Fase 3 consolidada na `main`
-- Fase atual: Fase 4 autorizada, ainda não iniciada
-- Próxima task proposta: definir e implementar a primeira task da Fase 4
-- Próxima task autorizada: iniciar a Fase 4
+- Estado geral: Fases 1, 2, 3 e 4 aprovadas e consolidadas na `main`
+- Fase atual: Fase 5 pronta para início, ainda não iniciada
+- Próxima task proposta: refinar onboarding e mensagens de erro da Fase 5
+- Próxima task autorizada: nenhuma implementação adicional neste encerramento da Fase 4
 
 ## Objetivo
 
@@ -168,23 +168,30 @@ Critério de aceite: a extensão controla uma página comum, continua após o po
 
 ### Fase 4 — Robustez, privacidade e desempenho
 
-Status: autorizada, não iniciada
+Status: concluída, aprovada e consolidada na `main` em 2026-09-21
 
-- [ ] Tratar permissão negada ou revogada.
-- [ ] Tratar câmera ausente, ocupada ou desconectada.
-- [ ] Tratar recarga, navegação e troca de aba.
-- [ ] Tratar suspensão/reinício do service worker.
-- [ ] Informar páginas em que não é possível injetar scripts.
-- [ ] Verificar encerramento das tracks da câmera.
-- [ ] Auditar permissões e chamadas de rede.
-- [ ] Medir CPU, memória, FPS e latência.
+- [x] Tratar permissão negada ou revogada.
+- [x] Tratar câmera ausente, ocupada ou desconectada.
+- [x] Tratar recarga, navegação e troca de aba.
+- [x] Tratar suspensão/reinício do service worker.
+- [x] Informar páginas em que não é possível injetar scripts.
+- [x] Verificar encerramento das tracks da câmera.
+- [x] Auditar permissões e chamadas de rede.
+- [x] Instrumentar e medir heap JavaScript, FPS, latência e carga relativa da inferência.
+- [ ] Medir CPU total do processo em uma sessão representativa.
 - [ ] Testar em mais de uma configuração de hardware.
+
+Evidência técnica: `pnpm check` executa 39 testes, verificação TypeScript e build WXT. A suíte cobre classificação de falhas da câmera, páginas protegidas, encerramento de todas as tracks em erro ou desconexão, política mínima do manifest e decisão segura de recuperação após reinício do service worker. O manifest gerado mantém somente `activeTab`, `scripting`, `storage` e `offscreen`, sem hosts permanentes, e limita conexões das páginas da extensão aos próprios assets.
+
+Evidência funcional: o pacote de produção foi recarregado no Chrome a partir de `.output/chrome-mv3`. Em uma rodada curta no Cifra Club, a extensão calibrou, pausou com segurança após perda da face, apresentou 30,0 FPS, latência p50/p95 de 16,0/18,4 ms, carga relativa de 49%, heap JavaScript de 9,6 MB e câmera em 640×480 a 30 FPS. A parada explícita e a troca de aba encerraram a sessão; uma página `chrome://` foi rejeitada com mensagem acionável. Nenhum frame foi exibido, salvo ou enviado.
+
+Registro de aceite: o responsável do projeto solicitou a validação, consolidação na `main` e publicação no GitHub em 2026-09-21. A Fase 4 foi aprovada para continuidade, mantendo como dívida documentada a medição de CPU total e a repetição em um segundo hardware. Esses itens não são tratados como evidência concluída.
 
 Critério de aceite: falhas são seguras, a câmera sempre pode ser interrompida e nenhuma imagem ou frame sai do dispositivo.
 
 ### Fase 5 — MVP instalável
 
-Status: não iniciada
+Status: não iniciada; pronta para planejamento
 
 - [ ] Refinar onboarding e mensagens de erro.
 - [ ] Mostrar indicador inequívoco de sessão ativa.

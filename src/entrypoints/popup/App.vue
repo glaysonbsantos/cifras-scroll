@@ -23,12 +23,14 @@ const state = ref<SessionSnapshot>({
   facePresent: false,
   calibrationProgress: 0,
   intent: 'NEUTRAL',
+  metrics: null,
   settings: { ...DEFAULT_SETTINGS },
 })
 const permission = ref<CameraPermission>('checking')
 const busy = ref(false)
 const errorMessage = ref('')
 let permissionStatus: PermissionStatus | null = null
+let stateRefreshTimer: number | null = null
 
 const isRunning = computed(() => ['STARTING', 'CALIBRATING', 'ACTIVE', 'PAUSED'].includes(state.value.phase))
 const needsPermission = computed(() => permission.value !== 'granted')
@@ -45,17 +47,25 @@ const intentLabel = computed(() => ({
   DOWN: 'Descendo',
   NEUTRAL: 'Neutro',
 })[state.value.intent])
+const cameraLabel = computed(() => {
+  const metrics = state.value.metrics
+  if (!metrics?.cameraWidth || !metrics.cameraHeight) return 'não informada'
+  const fps = metrics.cameraFrameRate ? ` · ${metrics.cameraFrameRate.toFixed(0)} fps capturados` : ''
+  return `${metrics.cameraWidth}×${metrics.cameraHeight}${fps}`
+})
 
 onMounted(async () => {
   browser.runtime.onMessage.addListener(handleRuntimeMessage)
   window.addEventListener('focus', checkPermission)
   await Promise.all([refreshState(), checkPermission()])
+  stateRefreshTimer = window.setInterval(() => { void refreshState() }, 1_000)
 })
 
 onBeforeUnmount(() => {
   browser.runtime.onMessage.removeListener(handleRuntimeMessage)
   window.removeEventListener('focus', checkPermission)
   if (permissionStatus) permissionStatus.onchange = null
+  if (stateRefreshTimer !== null) window.clearInterval(stateRefreshTimer)
 })
 
 async function refreshState(): Promise<void> {
@@ -119,7 +129,9 @@ async function runCommand(command: PopupCommand): Promise<void> {
   try {
     const result = await send(command)
     if (result.state) state.value = result.state
-    if (!result.ok) errorMessage.value = result.error ?? 'Não foi possível concluir a ação.'
+    if (!result.ok && result.error !== result.state?.message) {
+      errorMessage.value = result.error ?? 'Não foi possível concluir a ação.'
+    }
   } catch (reason) {
     errorMessage.value = reason instanceof Error ? reason.message : String(reason)
   } finally {
@@ -211,6 +223,20 @@ function isStateChangedEvent(message: unknown): message is StateChangedEvent {
           @change="saveSettings"
         >
       </label>
+    </section>
+
+    <section v-if="state.metrics" class="diagnostics" aria-labelledby="diagnostics-title">
+      <div class="diagnostics-heading">
+        <h2 id="diagnostics-title">Desempenho local</h2>
+        <span>janela de 5 s</span>
+      </div>
+      <dl>
+        <div><dt>Inferência</dt><dd>{{ state.metrics.fps.toFixed(1) }} fps</dd></div>
+        <div><dt>Latência p50 / p95</dt><dd>{{ state.metrics.latencyP50Ms.toFixed(1) }} / {{ state.metrics.latencyP95Ms.toFixed(1) }} ms</dd></div>
+        <div><dt>Carga da inferência</dt><dd>{{ state.metrics.processingLoadPercent.toFixed(0) }}%</dd></div>
+        <div><dt>Memória JS</dt><dd>{{ state.metrics.memoryMb === null ? 'indisponível' : `${state.metrics.memoryMb.toFixed(1)} MB` }}</dd></div>
+        <div class="wide"><dt>Câmera</dt><dd>{{ cameraLabel }}</dd></div>
+      </dl>
     </section>
 
     <footer>

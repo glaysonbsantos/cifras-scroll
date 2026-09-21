@@ -32,8 +32,16 @@ export class CameraPipeline {
   private now: NonNullable<CameraPipelineDependencies['now']>
   private stream: MediaStream | null = null
   private frameReader: ReadableStreamDefaultReader<VideoFrame> | null = null
+  private videoTrack: MediaStreamTrack | null = null
   private running = false
   private runId = 0
+  private readonly handleTrackEnded = () => {
+    if (!this.running) return
+    const error = new Error('A faixa de vídeo terminou inesperadamente.')
+    error.name = 'CameraDisconnectedError'
+    this.stop()
+    this.callbacks.onError(error)
+  }
 
   constructor(
     private callbacks: CameraPipelineCallbacks,
@@ -64,7 +72,9 @@ export class CameraPipeline {
 
       const [track] = this.stream?.getVideoTracks() ?? []
       if (!track) throw new Error('A câmera não forneceu uma faixa de vídeo.')
-      const settings = track?.getSettings()
+      this.videoTrack = track
+      track.addEventListener('ended', this.handleTrackEnded)
+      const settings = track.getSettings()
       this.callbacks.onCameraReady({
         width: settings?.width ?? null,
         height: settings?.height ?? null,
@@ -88,6 +98,8 @@ export class CameraPipeline {
     this.runId += 1
     void this.frameReader?.cancel().catch(() => undefined)
     this.frameReader = null
+    this.videoTrack?.removeEventListener('ended', this.handleTrackEnded)
+    this.videoTrack = null
     this.stream?.getTracks().forEach((track) => track.stop())
     this.stream = null
   }
@@ -104,7 +116,14 @@ export class CameraPipeline {
     try {
       while (this.running && runId === this.runId) {
         const result = await reader.read()
-        if (result.done || !result.value) return
+        if (result.done || !result.value) {
+          if (this.running && runId === this.runId) {
+            const error = new Error('A câmera deixou de fornecer frames.')
+            error.name = 'CameraDisconnectedError'
+            throw error
+          }
+          return
+        }
 
         try {
           this.callbacks.onFrame(this.detector.detect(result.value, this.now()))
