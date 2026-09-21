@@ -1,24 +1,31 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { cameraFailureMessage } from '../../extension/sessionSafety'
 
 type OnboardingStatus = 'IDLE' | 'REQUESTING' | 'GRANTED' | 'ERROR'
 
 const status = ref<OnboardingStatus>('IDLE')
 const message = ref('A câmera continua desligada até você autorizar explicitamente.')
+let permissionStatus: PermissionStatus | null = null
 
 onMounted(async () => {
   try {
-    const permission = await navigator.permissions.query({ name: 'camera' as PermissionName })
-    if (permission.state === 'granted') {
+    permissionStatus = await navigator.permissions.query({ name: 'camera' as PermissionName })
+    updatePermissionState(permissionStatus.state)
+    permissionStatus.onchange = () => {
+      if (permissionStatus) updatePermissionState(permissionStatus.state)
+    }
+    if (permissionStatus.state === 'granted') {
       status.value = 'GRANTED'
       message.value = 'A permissão de câmera já está concedida. Você pode ativar a extensão.'
-    } else if (permission.state === 'denied') {
-      status.value = 'ERROR'
-      message.value = 'A câmera está bloqueada. Libere a permissão nas configurações do Chrome e recarregue esta página.'
     }
   } catch {
     // O clique abaixo continua sendo a fonte de verdade em versões sem Permissions API.
   }
+})
+
+onBeforeUnmount(() => {
+  if (permissionStatus) permissionStatus.onchange = null
 })
 
 async function requestCamera(): Promise<void> {
@@ -29,13 +36,26 @@ async function requestCamera(): Promise<void> {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true })
     stream.getTracks().forEach((track) => track.stop())
     status.value = 'GRANTED'
-    message.value = 'Permissão concedida. A câmera de verificação já foi liberada.'
+    const released = stream.getTracks().every((track) => track.readyState === 'ended')
+    message.value = released
+      ? 'Permissão concedida. A câmera de verificação já foi liberada.'
+      : 'Permissão concedida. Feche esta página se o indicador da câmera continuar aceso.'
   } catch (reason) {
-    const error = reason instanceof Error ? reason : new Error(String(reason))
     status.value = 'ERROR'
-    message.value = error.name === 'NotAllowedError'
-      ? 'Acesso negado. Libere a câmera nas configurações do Chrome para usar a extensão.'
-      : `Não foi possível acessar a câmera: ${error.message}`
+    message.value = cameraFailureMessage(reason)
+  }
+}
+
+function updatePermissionState(state: PermissionState): void {
+  if (state === 'granted') {
+    status.value = 'GRANTED'
+    message.value = 'A permissão de câmera está concedida. Você pode ativar a extensão.'
+  } else if (state === 'denied') {
+    status.value = 'ERROR'
+    message.value = 'A câmera está bloqueada. Libere a permissão nas configurações do Chrome e recarregue esta página.'
+  } else {
+    status.value = 'IDLE'
+    message.value = 'A câmera continua desligada até você autorizar explicitamente.'
   }
 }
 

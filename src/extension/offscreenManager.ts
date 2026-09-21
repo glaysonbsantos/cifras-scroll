@@ -30,7 +30,7 @@ export class OffscreenDocumentManager {
     await this.platform.closeDocument()
   }
 
-  private async hasDocument(): Promise<boolean> {
+  async hasDocument(): Promise<boolean> {
     const contexts = await this.platform.findDocuments(this.platform.resolveUrl(this.path))
     return contexts.length > 0
   }

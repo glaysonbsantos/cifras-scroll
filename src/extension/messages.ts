@@ -1,7 +1,14 @@
-import type { ScrollIntent } from '../core/types'
+import type { InferenceMetrics, ScrollIntent } from '../core/types'
 import type { ExtensionSettings } from './settings'
 
 export type SessionPhase = 'IDLE' | 'STARTING' | 'CALIBRATING' | 'ACTIVE' | 'PAUSED' | 'ERROR'
+
+export interface RuntimeMetrics extends InferenceMetrics {
+  memoryMb: number | null
+  cameraWidth: number | null
+  cameraHeight: number | null
+  cameraFrameRate: number | null
+}
 
 export interface SessionSnapshot {
   phase: SessionPhase
@@ -11,7 +18,15 @@ export interface SessionSnapshot {
   facePresent: boolean
   calibrationProgress: number
   intent: ScrollIntent['action']
+  metrics: RuntimeMetrics | null
   settings: ExtensionSettings
+}
+
+export interface PipelineSnapshot {
+  running: boolean
+  tabId: number | null
+  tabTitle: string | null
+  status: Pick<SessionSnapshot, 'phase' | 'message' | 'facePresent' | 'calibrationProgress' | 'intent' | 'metrics'>
 }
 
 export type PopupCommand =
@@ -24,19 +39,33 @@ export type PopupCommand =
   | { target: 'background'; type: 'OPEN_ONBOARDING' }
 
 export type OffscreenCommand =
-  | { target: 'offscreen'; type: 'START_PIPELINE'; settings: ExtensionSettings }
+  | {
+    target: 'offscreen'
+    type: 'START_PIPELINE'
+    settings: ExtensionSettings
+    tabId: number
+    tabTitle: string
+  }
   | { target: 'offscreen'; type: 'STOP_PIPELINE' }
   | { target: 'offscreen'; type: 'RESUME_PIPELINE' }
   | { target: 'offscreen'; type: 'RECALIBRATE' }
   | { target: 'offscreen'; type: 'UPDATE_SETTINGS'; settings: ExtensionSettings }
+  | { target: 'offscreen'; type: 'GET_PIPELINE_STATE' }
+
+export interface OffscreenResponse {
+  ok: boolean
+  error?: string
+  errorName?: string
+  snapshot?: PipelineSnapshot
+}
 
 export type OffscreenEvent =
   | {
     target: 'background'
     type: 'OFFSCREEN_STATUS'
-    status: Pick<SessionSnapshot, 'phase' | 'message' | 'facePresent' | 'calibrationProgress' | 'intent'>
+    status: Pick<SessionSnapshot, 'phase' | 'message' | 'facePresent' | 'calibrationProgress' | 'intent' | 'metrics'>
   }
-  | { target: 'background'; type: 'SCROLL_INTENT'; intent: ScrollIntent }
+  | { target: 'background'; type: 'SCROLL_INTENT'; tabId: number; intent: ScrollIntent }
 
 export type ContentCommand =
   | { type: 'SCROLL_INTENT'; intent: ScrollIntent }
@@ -67,7 +96,7 @@ export function isOffscreenCommand(message: unknown): message is OffscreenComman
 export function isOffscreenEvent(message: unknown): message is OffscreenEvent {
   return hasTarget(message, 'background')
     && typeof message.type === 'string'
-    && (message.type === 'OFFSCREEN_STATUS' || message.type === 'SCROLL_INTENT')
+    && ['OFFSCREEN_STATUS', 'SCROLL_INTENT'].includes(message.type)
 }
 
 export function isContentCommand(message: unknown): message is ContentCommand {

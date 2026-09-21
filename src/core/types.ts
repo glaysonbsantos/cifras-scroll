@@ -28,6 +28,7 @@ export interface InferenceMetrics {
   latencyMs: number
   latencyP50Ms: number
   latencyP95Ms: number
+  processingLoadPercent: number
   stateChanges: number
   faceLosses: number
   faceRecoveries: number
