@@ -6,7 +6,7 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1, 2 e 3 estão concluídas e aprovadas. A implementação técnica da Fase 4 está concluída; faltam as medições físicas em pelo menos duas configurações de hardware antes de sua aprovação.
+As Fases 1, 2, 3 e 4 estão concluídas, aprovadas e consolidadas na `main`. A Fase 5 está pronta para planejamento e ainda não foi iniciada. Medição de CPU total e repetição em um segundo hardware permanecem como acompanhamentos documentados da Fase 4.
 
 A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas. Falhas de câmera e mudanças da aba encerram a sessão com segurança, e uma sessão só é recuperada após reinício do service worker quando o mesmo alvo ainda é válido.
 

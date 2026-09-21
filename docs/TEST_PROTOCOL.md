@@ -280,7 +280,21 @@ Falhar em um critério não encerra automaticamente o projeto. A falha deve indi
 - Limite desta validação: não houve câmera real, revogação de permissão no Chrome, suspensão forçada do service worker nem medição pelo gerenciador de tarefas. Carga da inferência não equivale ao uso total de CPU do processo. Esta validação não marca CPU, memória ou compatibilidade entre hardwares como medidas.
 - Próxima ação: executar a matriz manual abaixo em pelo menos duas configurações e anexar somente métricas agregadas.
 
-### Matriz manual pendente da Fase 4
+### Validação funcional 2026-09-21-2
+
+- Versão/commit: branch `codex/fase-4-robustez`, incluindo a correção do popup validada antes da consolidação.
+- Ambiente: macOS e Google Chrome; versão exata do Chrome, CPU e modelo da câmera não foram coletados.
+- Pacote: build de produção `.output/chrome-mv3`, carregada como extensão descompactada; não houve dependência do servidor WXT.
+- Página protegida: tentativa de ativação em `chrome://extensions` produziu estado `Interrompido` e a mensagem esperada, sem iniciar a câmera. A duplicação visual da mensagem encontrada na primeira inspeção foi corrigida e revalidada.
+- Página comum: sessão iniciada no Cifra Club, calibração concluída e perda da face tratada com pausa e intenção neutra.
+- Métricas observadas em uma amostra curta: 30,0 inferências/s; latência p50 de 16,0 ms; latência p95 de 18,4 ms; carga relativa da inferência de 49%; heap JavaScript de 9,6 MB; câmera configurada em 640×480 a 30 FPS.
+- Encerramento: o comando `Parar` retornou ao estado desligado com confirmação de liberação; em nova ativação, trocar de aba encerrou a sessão automaticamente com mensagem específica.
+- Privacidade observada: a interface não exibiu frames, não solicitou áudio e continuou declarando processamento local. Esta rodada não inspecionou tráfego no painel Network.
+- Limites: a amostra não representa uma sessão contínua, não mede CPU total pelo gerenciador de tarefas e não substitui teste em segundo hardware. Permissão revogada, câmera ocupada/desconectada e suspensão forçada do service worker permanecem cobertas por implementação/testes automatizados, não por esta rodada física.
+- Decisão: o responsável do projeto solicitou validar a Fase 4, consolidá-la na `main` e publicá-la. A fase é aceita para continuidade com a dívida explícita de CPU total e segundo hardware; nenhum resultado ausente foi inferido.
+- Próxima ação: iniciar a Fase 5 somente em task própria, preservando os acompanhamentos abaixo como validação complementar.
+
+### Acompanhamentos pós-aceite da Fase 4
 
 Para cada hardware, executar uma sessão ativa e registrar:
 
@@ -293,4 +307,4 @@ Para cada hardware, executar uma sessão ativa e registrar:
 7. Tentativa de ativação em `chrome://extensions` e Chrome Web Store; confirmar mensagem de página protegida.
 8. Painel Network do documento offscreen durante a sessão; confirmar somente recursos `chrome-extension://` e nenhuma origem remota.
 
-Registrar cada configuração usando o modelo de resultado deste protocolo. Não marcar os dois itens restantes da Fase 4 antes de obter os valores reais.
+Registrar cada configuração usando o modelo de resultado deste protocolo. Não marcar CPU total ou segundo hardware como verificados antes de obter os valores reais.
