@@ -308,3 +308,16 @@ Para cada hardware, executar uma sessão ativa e registrar:
 8. Painel Network do documento offscreen durante a sessão; confirmar somente recursos `chrome-extension://` e nenhuma origem remota.
 
 Registrar cada configuração usando o modelo de resultado deste protocolo. Não marcar CPU total ou segundo hardware como verificados antes de obter os valores reais.
+
+## Validações da Fase 5
+
+### Validação técnica 2026-09-21-1
+
+- Escopo: onboarding, mensagens acionáveis, indicador global de sessão, parada de emergência por popup e atalho, documentação de instalação e registro de limitações.
+- Verificações automatizadas: `pnpm check`; 42 testes aprovados, verificação TypeScript e build WXT aprovados.
+- Manifest inspecionado: permissões inalteradas (`activeTab`, `scripting`, `storage` e `offscreen`), sem `host_permissions`; comando `stop-session` presente com combinações sugeridas para Windows/Linux e macOS.
+- Segurança: o atalho chama o mesmo encerramento do popup, que envia intenção neutra, para o pipeline, interrompe tracks e fecha o documento offscreen. Nenhum fluxo de câmera, persistência ou rede foi ampliado.
+- Interface implementada: onboarding em quatro passos, recuperação para permissão bloqueada, mensagens sem detalhes internos, selo `ON`/`PAUS`/`!`, estado de câmera no popup e botão **Parar agora** com o atalho efetivo informado pelo Chrome.
+- Documentação: instalação descompactada, primeira utilização, problemas comuns, checklist final e limitações conhecidas registradas em documentos próprios.
+- Limite desta validação: não houve instalação por outra pessoa, câmera real ou uso em páginas reais nesta versão. A checklist em `docs/FINAL_CHECKLIST.md` permanece pendente e a Fase 5 não está aprovada.
+- Próxima ação: executar a checklist com outra pessoa e registrar somente resultados reais antes de marcar o critério de aceite.

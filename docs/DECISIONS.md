@@ -162,3 +162,12 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: o estado somente em memória do service worker é descartado pelo ciclo de vida do Manifest V3, enquanto continuar enviando intenções para um alvo ausente ou diferente viola o limite de uma aba e pode manter a câmera ligada sem controle útil.
 - Consequência: nenhuma sessão ou baseline é persistido. O offscreen mantém apenas pose derivada, estado, métricas agregadas e identificação efêmera da aba durante a sessão. Falhas de câmera e entrega encerram o movimento imediatamente; permissão revogada e track encerrada também liberam todas as tracks. Métricas de desempenho permanecem em memória e a CSP limita conexões a assets empacotados da própria extensão.
 - Revisar se: testes reais mostrarem que encerrar ao trocar de aba/janela é excessivamente restritivo ou que a recuperação do offscreen não é confiável em versões suportadas do Chrome.
+
+## D-018 — Manter indicador e parada de emergência no service worker
+
+- Status: aceita para a Fase 5
+- Data: 2026-09-21
+- Decisão: o service worker atualiza o selo e o título do ícone conforme o estado da sessão e atende ao comando global `stop-session` usando o mesmo caminho de encerramento seguro do popup.
+- Motivo: o popup pode permanecer fechado durante o uso; indicador e parada não podem depender do ciclo de vida da interface. O selo `ON` identifica preparação, calibração e sessão ativa, `PAUS` informa que a câmera continua ligada com scroll pausado e `!` sinaliza uma interrupção que requer atenção.
+- Consequência: o manifest inclui um atalho sugerido, sem nova permissão. O Chrome ou a pessoa usuária pode alterar ou remover a combinação; o popup consulta o atalho efetivo e mantém **Parar agora** como alternativa. Toda parada neutraliza o scroll, encerra o pipeline e fecha o documento offscreen.
+- Revisar se: a checklist mostrar conflito frequente do atalho, baixa legibilidade do selo ou necessidade de um indicador dentro da página controlada.

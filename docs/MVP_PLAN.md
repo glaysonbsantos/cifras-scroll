@@ -5,9 +5,9 @@
 ## Status
 
 - Estado geral: Fases 1, 2, 3 e 4 aprovadas e consolidadas na `main`
-- Fase atual: Fase 5 pronta para início, ainda não iniciada
-- Próxima task proposta: refinar onboarding e mensagens de erro da Fase 5
-- Próxima task autorizada: nenhuma implementação adicional neste encerramento da Fase 4
+- Fase atual: implementação da Fase 5 concluída na branch `codex/fase-5-mvp-instalavel`; validação manual final pendente
+- Próxima task proposta: executar `docs/FINAL_CHECKLIST.md` com outra pessoa, câmera e páginas reais
+- Próxima task autorizada: concluir a implementação da Fase 5; aprovação e consolidação dependem do resultado da checklist manual
 
 ## Objetivo
 
@@ -191,14 +191,18 @@ Critério de aceite: falhas são seguras, a câmera sempre pode ser interrompida
 
 ### Fase 5 — MVP instalável
 
-Status: não iniciada; pronta para planejamento
+Status: implementada tecnicamente; aguardando checklist manual e aprovação
 
-- [ ] Refinar onboarding e mensagens de erro.
-- [ ] Mostrar indicador inequívoco de sessão ativa.
-- [ ] Disponibilizar parada de emergência por UI e atalho.
-- [ ] Documentar instalação unpacked.
+- [x] Refinar onboarding e mensagens de erro.
+- [x] Mostrar indicador inequívoco de sessão ativa.
+- [x] Disponibilizar parada de emergência por UI e atalho.
+- [x] Documentar instalação unpacked.
 - [ ] Executar checklist final em páginas reais.
-- [ ] Registrar limitações conhecidas.
+- [x] Registrar limitações conhecidas.
+
+Evidência técnica: `pnpm check` executa 42 testes, verificação TypeScript e build WXT. A suíte cobre os estados do indicador global da extensão e mensagens acionáveis de falha. O manifest gerado mantém `activeTab`, `scripting`, `storage` e `offscreen`, sem hosts permanentes, e adiciona o comando `stop-session` sem nova permissão. Instruções de instalação, checklist e limitações estão em `docs/INSTALLATION.md`, `docs/FINAL_CHECKLIST.md` e `docs/KNOWN_LIMITATIONS.md`.
+
+Limite desta implementação: a versão da Fase 5 ainda não foi instalada e utilizada por outra pessoa com câmera em páginas reais. O item correspondente e o critério de aceite permanecem abertos; verificações automatizadas não substituem essa evidência.
 
 Critério de aceite: outra pessoa consegue instalar, conceder permissão, calibrar, usar e desativar o MVP seguindo a documentação.
 

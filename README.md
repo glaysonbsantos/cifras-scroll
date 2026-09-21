@@ -6,7 +6,7 @@ O primeiro contexto de uso são páginas de cifras durante apresentações de vo
 
 ## Estado atual
 
-As Fases 1, 2, 3 e 4 estão concluídas, aprovadas e consolidadas na `main`. A Fase 5 está pronta para planejamento e ainda não foi iniciada. Medição de CPU total e repetição em um segundo hardware permanecem como acompanhamentos documentados da Fase 4.
+As Fases 1, 2, 3 e 4 estão concluídas, aprovadas e consolidadas na `main`. A implementação da Fase 5 está na branch `codex/fase-5-mvp-instalavel`; a rodada final com outra pessoa, câmera e páginas reais permanece pendente antes da aprovação. Medição de CPU total e repetição em um segundo hardware continuam como acompanhamentos documentados da Fase 4.
 
 A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas. Falhas de câmera e mudanças da aba encerram a sessão com segurança, e uma sessão só é recuperada após reinício do service worker quando o mesmo alvo ainda é válido.
 
@@ -21,7 +21,7 @@ pnpm dev
 
 O WXT gera a extensão de desenvolvimento em `.output/chrome-mv3-dev`. Carregue esse diretório temporariamente em `chrome://extensions`, com o modo do desenvolvedor ativo. Na primeira instalação, a tela de onboarding solicita somente vídeo e libera imediatamente a câmera usada para verificar a permissão.
 
-Abra uma página `http` ou `https`, clique no ícone da extensão e use **Ativar nesta aba**. A calibração começa automaticamente; o popup pode ser fechado quando o estado ficar ativo. **Parar** encerra a sessão e libera a câmera.
+Abra uma página `http` ou `https`, clique no ícone da extensão e use **Ativar nesta aba**. A calibração começa automaticamente; o popup pode ser fechado quando o estado ficar ativo. O selo `ON` no ícone mostra que a sessão está em uso. **Parar agora** ou `Alt+Shift+X` (`Command+Shift+X` no macOS) encerra a sessão e libera a câmera.
 
 Durante a sessão, o popup mostra métricas locais de FPS, latência, carga relativa da inferência, memória JavaScript quando disponível e configuração da câmera. Os valores não são persistidos nem enviados.
 
@@ -48,6 +48,9 @@ O pacote, os arquivos WASM e o modelo do MediaPipe usados em runtime ficam no pr
 - [Plano do MVP](docs/MVP_PLAN.md)
 - [Protocolo de testes](docs/TEST_PROTOCOL.md)
 - [Registro de decisões](docs/DECISIONS.md)
+- [Instalação descompactada](docs/INSTALLATION.md)
+- [Checklist final](docs/FINAL_CHECKLIST.md)
+- [Limitações conhecidas](docs/KNOWN_LIMITATIONS.md)
 - [Instruções para agentes](AGENTS.md)
 
 ## Forma de trabalho
