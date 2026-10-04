@@ -1,6 +1,8 @@
 # Checklist final do MVP instalável
 
-Use esta checklist com o pacote de produção em `.output/chrome-mv3`. Nenhum item que envolva pessoa ou câmera deve ser marcado sem observação real.
+Use esta checklist com o pacote de produção em `.output/chrome-mv3` ou com uma instalação da Chrome Web Store. Registre versão e origem da instalação em cada nova rodada. Nenhum item que envolva pessoa ou câmera deve ser marcado sem observação real. Os itens marcados abaixo representam a rodada histórica de 2026-09-21.
+
+A versão `1.0.0` está publicada na loja. O relato de uso com dois amigos registrado em 2026-10-04 consta em [TEST_PROTOCOL.md](TEST_PROTOCOL.md#acompanhamento-após-publicação); ele não preenche automaticamente uma nova execução desta checklist.
 
 ## Verificação técnica — 2026-09-21
 

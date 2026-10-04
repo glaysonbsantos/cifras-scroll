@@ -1,67 +1,102 @@
 # Cifras Scroll
 
-Projeto experimental para validar **scroll hands-free no navegador por movimentos da cabeça**.
+**Role páginas no Chrome com movimentos da cabeça e mantenha as mãos livres.**
 
-O primeiro contexto de uso são páginas de cifras durante apresentações de voz e violão, mas o núcleo do produto não será específico para músicos ou para um site determinado.
+Feito inicialmente para ler cifras enquanto você canta e toca, o Cifras Scroll também pode controlar a rolagem de outras páginas compatíveis. A câmera estima movimentos verticais da cabeça, e uma posição neutra calibrada a cada sessão permite parar a rolagem sem usar as mãos.
 
-## Estado atual
+**[Instalar pela Chrome Web Store](https://chromewebstore.google.com/detail/cifras-scroll/onkimagjeggfnamedjbodeihfedkmdba)** · [Primeiros passos](docs/INSTALLATION.md) · [Suporte](SUPPORT.md) · [Privacidade](PRIVACY.md)
 
-As Fases 1, 2, 3, 4 e 5 estão concluídas, aprovadas e consolidadas. A preparação local da versão pública `1.0.0` também está consolidada na `main`; restam a instalação manual do ZIP final e as etapas externas do Developer Dashboard. Medição de CPU total e repetição em um segundo hardware continuam como acompanhamentos documentados da Fase 4.
+## Como usar
 
-A extensão usa Manifest V3 e WXT. O popup ativa uma sessão vinculada à aba atual; câmera, inferência e calibração permanecem em um documento offscreen; o service worker roteia somente intenções compactas; e o content script aplica o scroll. Sensibilidade e velocidade são as únicas preferências persistidas. Falhas de câmera e mudanças da aba encerram a sessão com segurança, e uma sessão só é recuperada após reinício do service worker quando o mesmo alvo ainda é válido.
+Você precisa do **Google Chrome 116 ou superior no computador** e de uma câmera. Para usar a versão da loja, basta instalar a extensão; nenhuma ferramenta de desenvolvimento é necessária.
 
-## Executar a extensão em desenvolvimento
+1. Instale pela Chrome Web Store e fixe o ícone do Cifras Scroll na barra do navegador.
+2. Na configuração inicial, clique em **Autorizar câmera**. A verificação solicita somente vídeo e libera a câmera em seguida.
+3. Abra uma página de cifra ou leitura com endereço `http` ou `https`, abra a extensão e clique em **Ativar nesta aba**.
+4. Mantenha uma postura confortável durante a calibração. Depois, incline a cabeça verticalmente para rolar para cima ou para baixo; volte ao neutro para interromper o movimento.
+5. Ajuste **Sensibilidade** e **Velocidade** conforme necessário. Use **Recalibrar** se mudar de postura ou posição da câmera.
+6. Para encerrar e liberar a câmera, clique em **Parar agora** ou use o atalho sugerido `Alt+Shift+X` (`Command+Shift+X` no macOS).
 
-Pré-requisitos: Node.js 20.19 ou superior e pnpm.
+O popup pode ser fechado durante o uso. O selo **ON** indica sessão em uso; **PAUS** indica rolagem pausada **com a câmera ainda ligada**. Ao perder a face, o controle pausa e exige **Retomar**. Consulte ou altere o atalho em `chrome://extensions/shortcuts`, pois ele pode conflitar com outra combinação.
+
+![Prévia do popup com estado da sessão, ajustes e botão de parada](store/assets/screenshot-popup-1280x800.png)
+
+## Privacidade
+
+- Todo o processamento de câmera acontece no dispositivo, com modelo e arquivos de inferência incluídos na extensão.
+- Vídeo, imagens e frames não são gravados, armazenados nem enviados.
+- Nenhum áudio é solicitado e não há reconhecimento de identidade.
+- Não há backend, contas, anúncios ou telemetria.
+- Somente sensibilidade e velocidade são salvas localmente. Calibração, pose, estado da sessão e métricas ficam em memória.
+- O acesso à página é temporário, após ativação explícita, sem permissões permanentes para todos os sites.
+
+As permissões são `activeTab` (aba escolhida), `scripting` (aplicar a rolagem), `storage` (preferências locais) e `offscreen` (processamento com o popup fechado). Veja a [política de privacidade completa](PRIVACY.md).
+
+## Compatibilidade e limites
+
+- Cada sessão controla uma aba. Trocar de aba ou de janela do Chrome, navegar, recarregar ou fechar a aba encerra a sessão; ative novamente quando quiser continuar.
+- Páginas internas do Chrome, a Chrome Web Store e o visualizador interno de PDF não aceitam o controle.
+- A extensão atua na rolagem principal da página. Containers internos, iframes e leitores com rolagem personalizada podem não funcionar.
+- Iluminação, enquadramento, câmera e capacidade do computador influenciam a experiência.
+- Outros navegadores e dispositivos móveis não fazem parte do suporte atual.
+
+Veja as [limitações conhecidas](docs/KNOWN_LIMITATIONS.md) e as [soluções para problemas comuns](docs/INSTALLATION.md#problemas-comuns).
+
+## Estado do projeto
+
+A versão `1.0.0` está publicada na [Chrome Web Store](https://chromewebstore.google.com/detail/cifras-scroll/onkimagjeggfnamedjbodeihfedkmdba), e as cinco fases do MVP estão concluídas e aprovadas. Em 4 de outubro de 2026, o responsável informou que testou a extensão com dois amigos e que funcionou.
+
+Esse relato é uma validação inicial de uso, sem métricas detalhadas ou configurações dos equipamentos. A medição de CPU total e a validação documentada em um segundo hardware continuam pendentes. O histórico de evidências está no [protocolo de testes](docs/TEST_PROTOCOL.md).
+
+## Problemas, dúvidas e sugestões
+
+Abra uma [issue no GitHub](https://github.com/glaysonbsantos/cifras-scroll/issues) com os passos para reproduzir, versão da extensão, Chrome, sistema operacional e estado mostrado no popup. Não inclua imagens da câmera, vídeos, dados pessoais ou endereços privados. O [guia de suporte](SUPPORT.md) detalha o que informar.
+
+## Desenvolvimento
+
+Pré-requisitos: **Node.js 22.12+ na linha 22 ou Node.js 24** e **pnpm**. Esta revisão foi verificada com Node.js 24.16.0 e pnpm 11.3.0. Node.js 20 não atende às ferramentas atuais do projeto.
 
 ```bash
-pnpm install
+git clone --branch main https://github.com/glaysonbsantos/cifras-scroll.git
+cd cifras-scroll
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-O WXT gera a extensão de desenvolvimento em `.output/chrome-mv3-dev`. Carregue esse diretório temporariamente em `chrome://extensions`, com o modo do desenvolvedor ativo. Na primeira instalação, a tela de onboarding solicita somente vídeo e libera imediatamente a câmera usada para verificar a permissão.
+O WXT gera a extensão de desenvolvimento em `.output/chrome-mv3-dev`. Carregue esse diretório em `chrome://extensions` com **Modo do desenvolvedor** ativo. Para instalar uma build local de produção, siga a [instalação descompactada](docs/INSTALLATION.md#instalação-local-para-desenvolvimento).
 
-Abra uma página `http` ou `https`, clique no ícone da extensão e use **Ativar nesta aba**. A calibração começa automaticamente; o popup pode ser fechado quando o estado ficar ativo. O selo `ON` no ícone mostra que a sessão está em uso. **Parar agora** ou `Alt+Shift+X` (`Command+Shift+X` no macOS) encerra a sessão e libera a câmera.
+| Comando | Finalidade |
+|---|---|
+| `pnpm dev` | Desenvolvimento com WXT |
+| `pnpm test` | Testes automatizados sem câmera |
+| `pnpm build` | Verificação TypeScript e build em `.output/chrome-mv3` |
+| `pnpm check` | Testes, verificação TypeScript e build de produção |
+| `pnpm zip` | Verificação TypeScript e ZIP de distribuição |
+| `pnpm release` | Testes, geração do ZIP e auditoria do pacote |
 
-Durante a sessão, o popup mostra métricas locais de FPS, latência, carga relativa da inferência, memória JavaScript quando disponível e configuração da câmera. Os valores não são persistidos nem enviados.
+O ZIP gerado fica em `.output/cifras-scroll-<versão>-chrome.zip`. Os testes automatizados não substituem a validação com pessoa e câmera.
 
-Para executar todas as verificações automatizadas e gerar o pacote de produção em `.output/chrome-mv3`:
+### Organização do código
 
-```bash
-pnpm check
-```
+- `src/core`: pose, calibração, interpretação de gestos e métricas, sem APIs da extensão.
+- `src/vision`: câmera e detector local MediaPipe Face Landmarker.
+- `src/extension`: mensagens, preferências e regras de sessão.
+- `src/entrypoints`: popup, onboarding, service worker, documento offscreen e controlador da página.
+- `src/web`: aplicação da rolagem baseada em tempo.
+- `public/mediapipe`: modelo e WASM locais, com origem e hashes documentados.
 
-Para verificar e gerar o ZIP destinado à Chrome Web Store:
+O service worker coordena a sessão; câmera e inferência ficam no documento offscreen. Frames não atravessam a mensageria da extensão. Veja o [guia de contribuição](CONTRIBUTING.md) antes de propor mudanças.
 
-```bash
-pnpm release
-```
+## Documentação do projeto
 
-O pacote, os arquivos WASM e o modelo do MediaPipe usados em runtime ficam no projeto e são servidos pela própria extensão; a inferência não depende de CDN ou backend.
-
-## Princípios do MVP
-
-- processamento integralmente local;
-- nenhum frame enviado ou armazenado;
-- nenhuma captura de áudio;
-- nenhuma identificação de pessoas;
-- permissões mínimas e solicitadas no contexto da funcionalidade;
-- controle fácil de interromper;
-- arquitetura reutilizável sem abstrações antecipadas.
-
-## Documentação
-
-- [Plano do MVP](docs/MVP_PLAN.md)
-- [Protocolo de testes](docs/TEST_PROTOCOL.md)
-- [Registro de decisões](docs/DECISIONS.md)
-- [Instalação descompactada](docs/INSTALLATION.md)
-- [Checklist final](docs/FINAL_CHECKLIST.md)
-- [Limitações conhecidas](docs/KNOWN_LIMITATIONS.md)
-- [Política de privacidade](PRIVACY.md)
-- [Suporte](SUPPORT.md)
-- [Publicação na Chrome Web Store](docs/CHROME_WEB_STORE_RELEASE.md)
+- [Plano e progresso do MVP](docs/MVP_PLAN.md)
+- [Protocolo e resultados de testes](docs/TEST_PROTOCOL.md)
+- [Decisões técnicas](docs/DECISIONS.md)
+- [Checklist de validação manual](docs/FINAL_CHECKLIST.md)
+- [Distribuição e atualizações na Chrome Web Store](docs/CHROME_WEB_STORE_RELEASE.md)
+- [Origem dos assets do MediaPipe](public/mediapipe/README.md)
 - [Instruções para agentes](AGENTS.md)
 
-## Forma de trabalho
+## Licença
 
-O desenvolvimento será conduzido uma fase por vez. Cada etapa deve cumprir seus critérios de aceite e registrar os resultados relevantes antes do início da seguinte.
+O código próprio do Cifras Scroll ainda não tem uma licença de uso definida neste repositório. As dependências e os assets de terceiros seguem suas respectivas licenças; a licença Apache-2.0 do pacote MediaPipe não licencia automaticamente o código do projeto. A definição da licença do projeto e a revisão dos avisos de terceiros são acompanhamentos documentados no [plano](docs/MVP_PLAN.md).

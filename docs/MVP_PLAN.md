@@ -1,13 +1,13 @@
 # Plano do MVP
 
-Última atualização: 2026-09-21
+Última atualização: 2026-10-04
 
 ## Status
 
 - Estado geral: Fases 1, 2, 3, 4 e 5 e preparação local da versão pública `1.0.0` consolidadas na `main`
-- Fase atual: preparação local da versão pública `1.0.0` concluída; validação final e submissão pendentes
-- Próxima task proposta: instalar o ZIP final em perfil limpo, publicar a política e preencher o Developer Dashboard
-- Última task autorizada: consolidar a preparação de publicação na `main` e publicar a branch principal no GitHub
+- Fase atual: MVP `1.0.0` publicado na Chrome Web Store; revisão da documentação para visitantes do GitHub concluída localmente
+- Próxima task proposta: disponibilizar esta revisão na `main` pública e definir `main` como branch padrão remota; decidir a licença do código próprio e revisar avisos de terceiros
+- Última task autorizada: revisar o projeto e atualizar a documentação para divulgação no LinkedIn, registrando publicação na loja e relato de uso com dois amigos
 
 ## Objetivo
 
@@ -210,7 +210,7 @@ Critério de aceite: outra pessoa consegue instalar, conceder permissão, calibr
 
 ### Preparação para publicação — Chrome Web Store
 
-Status: preparação local concluída e consolidada na `main`; pendências externas abertas
+Status: versão `1.0.0` publicada; confirmação do responsável e página pública verificadas em 2026-10-04
 
 - [x] Consolidar a Fase 5 na `main`.
 - [x] Definir identidade visual e ícones de distribuição.
@@ -220,14 +220,33 @@ Status: preparação local concluída e consolidada na `main`; pendências exter
 - [x] Capturar e verificar screenshots representativas da interface final.
 - [ ] Validar o ZIP final instalado em perfil limpo.
 - [x] Confirmar a URL pública da política após publicação da `main`.
-- [ ] Enviar o item e concluir os campos do Developer Dashboard.
-- [ ] Obter aprovação da revisão do Google e publicar.
+- [x] Enviar o item e concluir os campos do Developer Dashboard.
+- [x] Obter aprovação da revisão do Google e publicar.
 
-Os itens do Developer Dashboard e da revisão dependem de ações externas e não devem ser marcados por preparação local.
+Evidência de publicação: o responsável confirmou que a extensão já foi publicada. A [listagem pública](https://chromewebstore.google.com/detail/cifras-scroll/onkimagjeggfnamedjbodeihfedkmdba) foi consultada em 2026-10-04 e apresenta a versão `1.0.0`, com atualização em 2026-09-22. Os detalhes do formulário e a data exata de aprovação não foram fornecidos; a publicação comprova a conclusão do fluxo externo, sem inferir esses detalhes.
 
 Evidência técnica: `pnpm release` executa 48 testes, verificação TypeScript, build WXT, geração do ZIP e auditoria do pacote. O arquivo `.output/cifras-scroll-1.0.0-chrome.zip` tem 10,37 MB, `manifest.json` na raiz, ícones 16/32/48/128, versão alinhada ao `package.json`, nenhum host permanente e somente `activeTab`, `scripting`, `storage` e `offscreen`. Os materiais da loja têm dimensões verificadas automaticamente. Após a publicação da `main`, a política respondeu publicamente sem autenticação em `https://github.com/glaysonbsantos/cifras-scroll/blob/main/PRIVACY.md`.
 
-Limite: o carregamento headless do Chrome não forneceu evidência confiável de instalação da extensão em um perfil limpo; essa verificação permanece manual. Política, upload, formulário e revisão também dependem de publicação ou interação externa.
+Limite: o carregamento headless do Chrome não forneceu evidência confiável de instalação do ZIP em um perfil limpo. O relato posterior de uso com dois amigos não especifica o pacote, o perfil ou os cenários executados e não encerra essa verificação específica.
+
+### Documentação para divulgação pública — 2026-10-04
+
+Status: concluída localmente na branch `codex/docs-public-launch`; publicação destas mudanças no GitHub depende de autorização para push
+
+- [x] Colocar instalação pela Chrome Web Store, primeiros passos, privacidade e suporte em destaque no README.
+- [x] Atualizar instalação, limitações e guia de distribuição para refletir a publicação.
+- [x] Corrigir pré-requisitos de desenvolvimento conforme os engines do lockfile: Node.js 22.12+ na linha 22 ou Node.js 24.
+- [x] Adicionar guia de contribuição e modelos de issues com orientações de privacidade.
+- [x] Registrar relato agregado de uso bem-sucedido com dois amigos, sem inventar métricas ou equipamentos.
+- [x] Executar `pnpm check`: 48 testes, verificação TypeScript e build aprovados; sem ativar a câmera.
+- [ ] Consolidar esta revisão na `main` e publicar após autorização.
+- [ ] Alterar a branch padrão do GitHub de `codex/fase-1-poc-web` para `main`.
+- [ ] Preencher descrição, link da loja e tópicos no About do GitHub.
+- [ ] Definir licença do código próprio e revisar os textos de licença/avisos dos componentes de terceiros redistribuídos.
+
+Evidência da revisão pública: a API do GitHub, consultada sem autenticação em 2026-10-04, confirmou repositório público, issues habilitadas, `main` existente, ausência de licença e descrição/link/tópicos vazios. A branch padrão remota permanece `codex/fase-1-poc-web`, fazendo a página inicial mostrar o estado antigo do projeto. A revisão de código confirmou câmera sem áudio, assets locais, preferências limitadas a sensibilidade/velocidade e permissões sem hosts permanentes. Não houve mudança de código, dependências, permissões ou tratamento de dados.
+
+Sugestão para o About: “Extensão Chrome para rolar páginas com movimentos da cabeça, com processamento local e sem gravação.” Website: link oficial da loja. Tópicos: `chrome-extension`, `mediapipe`, `head-tracking`, `hands-free`, `typescript`, `vue`.
 
 ## Metas provisórias
 

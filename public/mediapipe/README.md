@@ -1,6 +1,6 @@
 # Assets locais do MediaPipe
 
-Estes arquivos são servidos pela própria POC. Não substitua os caminhos do runtime por CDN.
+Estes arquivos são empacotados e servidos pela própria extensão. Não substitua os caminhos do runtime por CDN.
 
 ## Origem
 

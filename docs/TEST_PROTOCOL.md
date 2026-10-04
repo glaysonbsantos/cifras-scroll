@@ -1,6 +1,6 @@
 # Protocolo de testes do MVP
 
-Última atualização: 2026-09-21
+Última atualização: 2026-10-04
 
 ## Objetivo
 
@@ -340,3 +340,22 @@ Registrar cada configuração usando o modelo de resultado deste protocolo. Não
 - Materiais: ícone 128×128, imagem promocional 440×280 e duas screenshots 1280×800 tiveram formato e dimensões verificados automaticamente e foram inspecionados visualmente sem câmera.
 - Privacidade: política bilíngue, justificativas das permissões e instruções ao revisor foram preparadas; nenhuma alteração ampliou captura, persistência ou rede da extensão.
 - Limite: a tentativa headless não comprovou que o ZIP foi instalado em perfil limpo e não ativou a câmera. URL pública, Developer Dashboard e revisão do Google permanecem externos e pendentes.
+
+## Acompanhamento após publicação
+
+### Relato de uso com duas pessoas — registrado em 2026-10-04
+
+- Fonte: confirmação do responsável do projeto nesta data; a data exata dos testes não foi informada.
+- Escopo informado: a extensão foi testada com dois amigos e funcionou. O responsável também confirmou que a publicação na Chrome Web Store foi concluída.
+- Resultado agregado disponível: uso bem-sucedido relatado com duas pessoas.
+- Dados não fornecidos: versões do Chrome e da extensão instalada, sistemas operacionais, hardware, câmera, páginas, forma de instalação, duração, cenários executados e métricas de desempenho/conforto.
+- Limite: este é um relato de uso, sem observação direta nesta revisão. Não equivale à execução completa de S1–S10, não comprova instalação do ZIP em perfil limpo e não encerra a medição de CPU total ou a validação documentada de um segundo hardware.
+- Privacidade: nenhum dado pessoal, frame, imagem, áudio ou amostra de pose foi coletado ou incluído neste registro.
+
+### Revisão técnica e documental — 2026-10-04
+
+- Escopo: documentação para visitantes do GitHub e conferência do comportamento descrito com o código existente.
+- Verificações automatizadas: `pnpm check`; 48 testes, verificação TypeScript e build WXT aprovados, com Node.js 24.16.0 e pnpm 11.3.0.
+- Inspeção estática: câmera solicitada com `audio: false`; modelo/WASM locais; somente sensibilidade e velocidade em `chrome.storage.local`; manifest com `activeTab`, `scripting`, `storage` e `offscreen`, sem hosts permanentes, e `connect-src 'self'`.
+- Conferência pública: link da Chrome Web Store acessível, versão `1.0.0`; repositório GitHub público com issues habilitadas, mas branch padrão ainda na POC da Fase 1.
+- Limite: nenhuma câmera foi ativada, nenhuma sessão física foi realizada e não houve nova medição de tráfego, CPU ou hardware.
