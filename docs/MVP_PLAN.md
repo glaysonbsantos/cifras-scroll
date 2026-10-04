@@ -5,9 +5,9 @@
 ## Status
 
 - Estado geral: Fases 1, 2, 3, 4 e 5 e preparação local da versão pública `1.0.0` consolidadas na `main`
-- Fase atual: MVP `1.0.0` publicado na Chrome Web Store; revisão da documentação para visitantes do GitHub concluída localmente
-- Próxima task proposta: disponibilizar esta revisão na `main` pública e definir `main` como branch padrão remota; revisar avisos de terceiros na distribuição
-- Última task autorizada: revisar o projeto e atualizar a documentação para divulgação no LinkedIn, registrando publicação na loja e relato de uso com dois amigos
+- Fase atual: MVP `1.0.0` publicado na Chrome Web Store; documentação para visitantes do GitHub publicada e consolidada na `main`
+- Próxima task proposta: responsável definir `main` como branch padrão remota e preencher o About; revisar avisos de terceiros na distribuição
+- Última task autorizada: publicar `codex/docs-public-launch`, consolidá-la na `main` e publicar a `main`; alteração da branch padrão será feita pelo responsável
 
 ## Objetivo
 
@@ -231,7 +231,7 @@ Limite: o carregamento headless do Chrome não forneceu evidência confiável de
 
 ### Documentação para divulgação pública — 2026-10-04
 
-Status: concluída localmente na branch `codex/docs-public-launch`; publicação destas mudanças no GitHub depende de autorização para push
+Status: concluída, aprovada para publicação e consolidada na `main` em 2026-10-04; branch da tarefa e `main` publicadas no GitHub
 
 - [x] Colocar instalação pela Chrome Web Store, primeiros passos, privacidade e suporte em destaque no README.
 - [x] Atualizar instalação, limitações e guia de distribuição para refletir a publicação.
@@ -239,7 +239,7 @@ Status: concluída localmente na branch `codex/docs-public-launch`; publicação
 - [x] Adicionar guia de contribuição e modelos de issues com orientações de privacidade.
 - [x] Registrar relato agregado de uso bem-sucedido com dois amigos, sem inventar métricas ou equipamentos.
 - [x] Executar `pnpm check`: 48 testes, verificação TypeScript e build aprovados; sem ativar a câmera.
-- [ ] Consolidar esta revisão na `main` e publicar após autorização.
+- [x] Consolidar esta revisão na `main` e publicar após autorização.
 - [ ] Alterar a branch padrão do GitHub de `codex/fase-1-poc-web` para `main`.
 - [ ] Preencher descrição, link da loja e tópicos no About do GitHub.
 - [x] Definir licença MIT do código próprio por escolha explícita do responsável, com `LICENSE`, metadado no `package.json` e referências de terceiros.
@@ -248,6 +248,8 @@ Status: concluída localmente na branch `codex/docs-public-launch`; publicação
 Evidência da revisão pública: a API do GitHub, consultada sem autenticação em 2026-10-04, confirmou repositório público, issues habilitadas, `main` existente, ausência de licença publicada e descrição/link/tópicos vazios. A licença MIT foi adicionada localmente após escolha do responsável. A branch padrão remota permanece `codex/fase-1-poc-web`, fazendo a página inicial mostrar o estado antigo do projeto. A revisão de código confirmou câmera sem áudio, assets locais, preferências limitadas a sensibilidade/velocidade e permissões sem hosts permanentes. Não houve mudança de lógica, dependências, permissões ou tratamento de dados.
 
 Sugestão para o About: “Extensão Chrome para rolar páginas com movimentos da cabeça, com processamento local e sem gravação.” Website: link oficial da loja. Tópicos: `chrome-extension`, `mediapipe`, `head-tracking`, `hands-free`, `typescript`, `vue`.
+
+Registro de consolidação: em 2026-10-04, o responsável autorizou explicitamente a publicação da branch e sua incorporação na `main`. Os commits `07cc36e` (documentação) e `22e1dde` (licença MIT) foram publicados em `codex/docs-public-launch` e incorporados na `main` por fast-forward, sem reescrita de histórico. O push da `main` foi confirmado. O responsável fará a mudança da branch padrão no GitHub; esse item permanece pendente até confirmação.
 
 ## Metas provisórias
 

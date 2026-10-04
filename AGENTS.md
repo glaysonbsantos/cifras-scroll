@@ -12,7 +12,7 @@ Antes de trabalhar, leia:
 
 ## Estado atual
 
-- Fase atual: MVP `1.0.0` publicado na Chrome Web Store; documentação para usuários revisada em 2026-10-04. Medição de CPU total, segundo hardware documentado e validação específica do ZIP em perfil limpo permanecem como acompanhamentos. A branch padrão remota ainda precisa ser alterada para `main`.
+- Fase atual: MVP `1.0.0` publicado na Chrome Web Store; documentação para usuários revisada, publicada e consolidada na `main` em 2026-10-04. Medição de CPU total, segundo hardware documentado e validação específica do ZIP em perfil limpo permanecem como acompanhamentos. O responsável fará a mudança da branch padrão remota para `main`.
 - Gerenciador de pacotes oficial: `pnpm`.
 - Comandos oficiais: `pnpm dev`, `pnpm test`, `pnpm build`, `pnpm check`, `pnpm zip` e `pnpm release`.
 - Antes de encerrar mudanças de código, execute `pnpm check`.

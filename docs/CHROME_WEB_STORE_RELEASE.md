@@ -63,9 +63,9 @@ Incremente `version` em `package.json`, execute `pnpm release`, teste o novo ZIP
 
 Verificação pública de 2026-10-04: o repositório e a `main` estão acessíveis, e as issues estão habilitadas. Há estes acompanhamentos:
 
-- Publicar a revisão de documentação na `main` após autorização para push.
+- Revisão de documentação publicada em `codex/docs-public-launch` e consolidada na `main` em 2026-10-04, após autorização explícita do responsável.
 - Em **Settings → General → Default branch**, definir `main` como branch padrão. A configuração atual aponta para `codex/fase-1-poc-web`, mostrando a POC ao abrir o link do projeto.
 - No **About** do repositório, preencher descrição, usar a URL da loja como Website e adicionar tópicos. Sugestão de descrição: “Extensão Chrome para rolar páginas com movimentos da cabeça, com processamento local e sem gravação.”
 - A licença MIT do código próprio foi definida nesta revisão por escolha explícita do responsável. Revisar os textos de licença e avisos dos componentes de terceiros que acompanham o pacote redistribuído; as referências iniciais estão em [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
-Esses ajustes de configuração não foram executados nesta revisão. Não dependem de uma nova versão da extensão na loja; alterações em arquivos empacotados devem seguir o fluxo de atualização acima.
+Os ajustes de branch padrão e About não foram executados nesta revisão; o responsável fará a mudança da branch padrão. Não dependem de uma nova versão da extensão na loja; alterações em arquivos empacotados devem seguir o fluxo de atualização acima.
