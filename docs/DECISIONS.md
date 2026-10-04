@@ -1,6 +1,6 @@
 # Registro de decisões
 
-Última atualização: 2026-09-21
+Última atualização: 2026-10-04
 
 Este documento registra decisões que afetam arquitetura, escopo, dependências, privacidade ou permissões. Uma decisão pode ser substituída, mas não deve ser apagada; registre a decisão nova e indique a anterior.
 
@@ -180,3 +180,13 @@ Este documento registra decisões que afetam arquitetura, escopo, dependências,
 - Motivo: evitar divergência de versão entre projeto e manifest, produzir um ZIP reproduzível e atender aos requisitos de identidade e transparência da Chrome Web Store.
 - Consequência: `pnpm release` executa testes, verificação TypeScript e geração do ZIP. Política, textos da loja, justificativas de permissões e instruções de revisão ficam versionados junto ao código; a política pública usa o repositório oficial e precisa estar acessível sem autenticação antes da submissão.
 - Revisar se: a loja exigir outro formato de material, a URL pública mudar ou uma atualização futura alterar permissões, dados tratados ou finalidade única.
+
+## D-020 — Licenciar o código próprio sob MIT
+
+- Status: aceita por escolha explícita do responsável
+- Data: 2026-10-04
+- Decisão: adotar a licença MIT para o código próprio e a documentação do Cifras Scroll, com aviso de autoria usando o identificador público `glaysonbsantos`; registrar a licença em `LICENSE` e no metadado `license` do `package.json`.
+- Motivo: preparar o repositório público para reutilização e contribuição, preservando o aviso de autoria.
+- Consequência: contribuições de código próprio seguem MIT; bibliotecas e assets de terceiros mantêm seus próprios termos. `THIRD_PARTY_NOTICES.md` registra referências iniciais, sem atribuir automaticamente a licença do pacote ao modelo nem declarar uma auditoria completa da distribuição.
+- Relação com D-019: complementa a documentação da distribuição pública; não muda a versão da extensão, permissões ou processamento de dados. O pacote já publicado na loja não é alterado por esta atualização do repositório.
+- Revisar se: novos componentes exigirem condições adicionais ou houver proposta explícita de mudança de licença.

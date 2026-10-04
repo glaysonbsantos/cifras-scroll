@@ -66,6 +66,6 @@ Verificação pública de 2026-10-04: o repositório e a `main` estão acessíve
 - Publicar a revisão de documentação na `main` após autorização para push.
 - Em **Settings → General → Default branch**, definir `main` como branch padrão. A configuração atual aponta para `codex/fase-1-poc-web`, mostrando a POC ao abrir o link do projeto.
 - No **About** do repositório, preencher descrição, usar a URL da loja como Website e adicionar tópicos. Sugestão de descrição: “Extensão Chrome para rolar páginas com movimentos da cabeça, com processamento local e sem gravação.”
-- Definir a licença do código próprio e revisar licenças e avisos dos componentes de terceiros redistribuídos. Repositório público não define, por si só, condições de reutilização do código; veja a [orientação do GitHub sobre licenças](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).
+- A licença MIT do código próprio foi definida nesta revisão por escolha explícita do responsável. Revisar os textos de licença e avisos dos componentes de terceiros que acompanham o pacote redistribuído; as referências iniciais estão em [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
 Esses ajustes de configuração não foram executados nesta revisão. Não dependem de uma nova versão da extensão na loja; alterações em arquivos empacotados devem seguir o fluxo de atualização acima.

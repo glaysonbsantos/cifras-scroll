@@ -4,7 +4,7 @@ Relatos de problemas, dúvidas sobre uso e sugestões são bem-vindos nas [issue
 
 ## Propostas de código
 
-O código próprio ainda não possui licença definida. Antes de enviar uma contribuição de código, alinhe a proposta e as condições de contribuição com o responsável em uma issue. Não presuma que a licença das dependências se aplica ao projeto inteiro.
+O código próprio está sob a [licença MIT](LICENSE). As contribuições de código próprio devem usar essa mesma licença. Antes de uma mudança maior, alinhe a proposta com o responsável em uma issue. Preserve os avisos de autoria e as licenças dos componentes de terceiros.
 
 Leia o [plano do MVP](docs/MVP_PLAN.md), as [decisões](docs/DECISIONS.md) e as [regras de trabalho](AGENTS.md). Mudanças devem ser pequenas e focadas. Novas dependências, permissões, chamadas de rede ou ampliação de escopo precisam de decisão explícita e documentada.
 

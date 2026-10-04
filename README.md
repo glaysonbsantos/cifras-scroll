@@ -99,4 +99,4 @@ O service worker coordena a sessão; câmera e inferência ficam no documento of
 
 ## Licença
 
-O código próprio do Cifras Scroll ainda não tem uma licença de uso definida neste repositório. As dependências e os assets de terceiros seguem suas respectivas licenças; a licença Apache-2.0 do pacote MediaPipe não licencia automaticamente o código do projeto. A definição da licença do projeto e a revisão dos avisos de terceiros são acompanhamentos documentados no [plano](docs/MVP_PLAN.md).
+O código próprio do Cifras Scroll está disponível sob a [licença MIT](LICENSE), permitindo uso, modificação e redistribuição com preservação do aviso de autoria e da licença. As dependências e os assets de terceiros seguem suas respectivas licenças; veja as [referências de terceiros](THIRD_PARTY_NOTICES.md) e a [origem dos assets do MediaPipe](public/mediapipe/README.md).

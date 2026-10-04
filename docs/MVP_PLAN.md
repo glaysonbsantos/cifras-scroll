@@ -6,7 +6,7 @@
 
 - Estado geral: Fases 1, 2, 3, 4 e 5 e preparação local da versão pública `1.0.0` consolidadas na `main`
 - Fase atual: MVP `1.0.0` publicado na Chrome Web Store; revisão da documentação para visitantes do GitHub concluída localmente
-- Próxima task proposta: disponibilizar esta revisão na `main` pública e definir `main` como branch padrão remota; decidir a licença do código próprio e revisar avisos de terceiros
+- Próxima task proposta: disponibilizar esta revisão na `main` pública e definir `main` como branch padrão remota; revisar avisos de terceiros na distribuição
 - Última task autorizada: revisar o projeto e atualizar a documentação para divulgação no LinkedIn, registrando publicação na loja e relato de uso com dois amigos
 
 ## Objetivo
@@ -242,9 +242,10 @@ Status: concluída localmente na branch `codex/docs-public-launch`; publicação
 - [ ] Consolidar esta revisão na `main` e publicar após autorização.
 - [ ] Alterar a branch padrão do GitHub de `codex/fase-1-poc-web` para `main`.
 - [ ] Preencher descrição, link da loja e tópicos no About do GitHub.
-- [ ] Definir licença do código próprio e revisar os textos de licença/avisos dos componentes de terceiros redistribuídos.
+- [x] Definir licença MIT do código próprio por escolha explícita do responsável, com `LICENSE`, metadado no `package.json` e referências de terceiros.
+- [ ] Revisar os textos de licença/avisos dos componentes de terceiros que devem acompanhar o pacote redistribuído.
 
-Evidência da revisão pública: a API do GitHub, consultada sem autenticação em 2026-10-04, confirmou repositório público, issues habilitadas, `main` existente, ausência de licença e descrição/link/tópicos vazios. A branch padrão remota permanece `codex/fase-1-poc-web`, fazendo a página inicial mostrar o estado antigo do projeto. A revisão de código confirmou câmera sem áudio, assets locais, preferências limitadas a sensibilidade/velocidade e permissões sem hosts permanentes. Não houve mudança de código, dependências, permissões ou tratamento de dados.
+Evidência da revisão pública: a API do GitHub, consultada sem autenticação em 2026-10-04, confirmou repositório público, issues habilitadas, `main` existente, ausência de licença publicada e descrição/link/tópicos vazios. A licença MIT foi adicionada localmente após escolha do responsável. A branch padrão remota permanece `codex/fase-1-poc-web`, fazendo a página inicial mostrar o estado antigo do projeto. A revisão de código confirmou câmera sem áudio, assets locais, preferências limitadas a sensibilidade/velocidade e permissões sem hosts permanentes. Não houve mudança de lógica, dependências, permissões ou tratamento de dados.
 
 Sugestão para o About: “Extensão Chrome para rolar páginas com movimentos da cabeça, com processamento local e sem gravação.” Website: link oficial da loja. Tópicos: `chrome-extension`, `mediapipe`, `head-tracking`, `hands-free`, `typescript`, `vue`.
 
